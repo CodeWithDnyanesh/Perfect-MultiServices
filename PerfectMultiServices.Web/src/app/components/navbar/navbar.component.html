@@ -1,0 +1,74 @@
+<nav class="navbar" [class.scrolled]="isScrolled">
+  <div class="navbar-container">
+    <!-- Logo -->
+    <div class="navbar-brand">
+      <a routerLink="/" (click)="closeMenu()" class="brand-link">
+        <img class="brand-logo" src="assets/perfect-multi-services-logo.png" alt="Perfect Multi Services" />
+      </a>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <div class="navbar-menu desktop-menu">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()" class="nav-link">
+        {{ i18n.t('home') }}
+      </a>
+      <a routerLink="/services" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        {{ i18n.t('services') }}
+      </a>
+      <a routerLink="/how-it-works" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        {{ i18n.t('howItWorks') }}
+      </a>
+      <a routerLink="/about" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        {{ i18n.t('about') }}
+      </a>
+      <a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()" class="nav-link">
+        {{ i18n.t('contact') }}
+      </a>
+      <a routerLink="/contact" (click)="closeMenu()" class="nav-link cta-link">
+        {{ i18n.t('quote') }}
+      </a>
+      <label class="language-picker">
+        <span class="sr-only">{{ i18n.t('selectLanguage') }}</span>
+        <select [value]="i18n.language()" (change)="setLanguage($any($event.target).value)" [attr.aria-label]="i18n.t('selectLanguage')">
+          <option value="en">EN</option>
+          <option value="mr">मराठी</option>
+          <option value="hi">हिन्दी</option>
+        </select>
+      </label>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button 
+      class="mobile-menu-button" 
+      (click)="toggleMenu()"
+      [class.active]="isMenuOpen"
+      aria-label="Toggle menu"
+    >
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-menu" [class.open]="isMenuOpen">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()" class="mobile-nav-link">
+      {{ i18n.t('home') }}
+    </a>
+    <a routerLink="/services" routerLinkActive="active" (click)="closeMenu()" class="mobile-nav-link">
+      {{ i18n.t('services') }}
+    </a>
+    <a routerLink="/how-it-works" routerLinkActive="active" (click)="closeMenu()" class="mobile-nav-link">
+      {{ i18n.t('howItWorks') }}
+    </a>
+    <a routerLink="/about" routerLinkActive="active" (click)="closeMenu()" class="mobile-nav-link">
+      {{ i18n.t('about') }}
+    </a>
+    <a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()" class="mobile-nav-link">
+      {{ i18n.t('contact') }}
+    </a>
+    <a routerLink="/contact" (click)="closeMenu()" class="mobile-nav-link cta-link">
+      {{ i18n.t('quote') }}
+    </a>
+  </div>
+</nav>

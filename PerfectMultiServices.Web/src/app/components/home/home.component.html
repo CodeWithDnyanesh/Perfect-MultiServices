@@ -1,0 +1,263 @@
+<div class="home-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>{{ i18n.t('loading') }}</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-container">
+    <p>{{ error }}</p>
+    <button (click)="loadData()" class="retry-button">{{ i18n.t('retry') }}</button>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!loading && !error && companyInfo" class="home-shell">
+    <header class="hero-section" id="top" data-reveal>
+      <div class="hero-text">
+        <span class="eyebrow">{{ i18n.t('aboutEyebrow') }}</span>
+        <h1 class="company-name">{{ companyInfo.name }}</h1>
+        <p class="tagline">{{ companyInfo.tagline }}</p>
+        <p class="description">{{ companyInfo.description }}</p>
+
+        <div class="hero-actions">
+          <button (click)="router.navigate(['/contact'])" class="cta-button">{{ i18n.t('bookService') }}</button>
+          <button (click)="router.navigate(['/about'])" class="secondary-button">{{ i18n.t('whyChooseUs') }}</button>
+        </div>
+
+        <div class="location-badge">
+          <span class="icon">📍</span>
+          <span>{{ companyInfo.location }}</span>
+        </div>
+
+        <div class="trust-row">
+          <div class="trust-item">
+            <span class="trust-icon">⭐</span>
+            <div>
+              <strong>4.9/5</strong>
+              <small>{{ i18n.t('customerRating') }}</small>
+            </div>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon">🧹</span>
+            <div>
+              <strong>1250+</strong>
+              <small>{{ i18n.t('homesServed') }}</small>
+            </div>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon">⏱️</span>
+            <div>
+              <strong>24/7</strong>
+              <small>{{ i18n.t('support') }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual"></div>
+    </header>
+
+    <section class="spotlight-section" aria-label="Service highlights" data-reveal>
+      <div class="spotlight-copy">
+        <span class="subtitle">{{ i18n.t('difference') }}</span>
+        <h2>{{ i18n.t('servicePrecision') }}</h2>
+        <p>From the first hello to the final inspection, every detail is planned to make your day easier.</p>
+        <div class="spotlight-controls">
+          <button type="button" class="carousel-arrow" (click)="previousSlide()" aria-label="Previous highlight">←</button>
+          <div class="carousel-dots">
+            <button *ngFor="let slide of carouselSlides; let i = index" type="button" class="carousel-dot"
+              [class.active]="activeSlide === i" (click)="goToSlide(i)" [attr.aria-label]="'Show highlight ' + (i + 1)"></button>
+          </div>
+          <button type="button" class="carousel-arrow" (click)="nextSlide()" aria-label="Next highlight">→</button>
+        </div>
+      </div>
+      <div class="spotlight-carousel">
+        <article class="spotlight-slide" *ngFor="let slide of carouselSlides; let i = index"
+          [class.active]="activeSlide === i">
+          <div class="slide-icon">{{ slide.icon }}</div>
+          <span class="slide-eyebrow">{{ slide.eyebrow }}</span>
+          <h3>{{ slide.title }}</h3>
+          <p>{{ slide.description }}</p>
+          <button type="button" class="slide-link" (click)="router.navigate(['/contact'])">{{ slide.action }} <span>↗</span></button>
+        </article>
+      </div>
+    </section>
+
+    <section class="stats-strip" data-reveal>
+      <div class="stat-box">
+        <strong>1250+</strong>
+        <span>Happy customers</span>
+      </div>
+      <div class="stat-box">
+        <strong>98%</strong>
+        <span>Repeat bookings</span>
+      </div>
+      <div class="stat-box">
+        <strong>28</strong>
+        <span>Expert staff</span>
+      </div>
+      <div class="stat-box">
+        <strong>12+</strong>
+        <span>Years of trust</span>
+      </div>
+    </section>
+
+    <section class="experience-section" data-reveal>
+      <div class="experience-heading">
+        <span class="subtitle">Built around you</span>
+        <h2>More than a service. A smoother way to care for your space.</h2>
+      </div>
+      <div class="experience-grid">
+        <article class="experience-card experience-card-primary">
+          <span class="experience-number">01</span>
+          <span class="experience-icon">📅</span>
+          <h3>Flexible scheduling</h3>
+          <p>Choose a time that fits your routine, with clear updates from booking to completion.</p>
+          <a routerLink="/contact">Plan your visit →</a>
+        </article>
+        <article class="experience-card">
+          <span class="experience-number">02</span>
+          <span class="experience-icon">✨</span>
+          <h3>Detail-led quality</h3>
+          <p>Our checklists and trained teams keep the little details from being overlooked.</p>
+          <a routerLink="/about">Our quality promise →</a>
+        </article>
+        <article class="experience-card">
+          <span class="experience-number">03</span>
+          <span class="experience-icon">🤝</span>
+          <h3>People you can trust</h3>
+          <p>Professional, respectful staff who treat your home or workplace with care.</p>
+          <a routerLink="/contact">Talk to our team →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="services-section" id="services" data-reveal>
+      <div class="section-heading">
+        <span class="subtitle">{{ i18n.t('ourServices') }}</span>
+        <h2>{{ i18n.t('professionalCare') }}</h2>
+      </div>
+
+      <div class="services-grid">
+        <div *ngFor="let service of services" class="service-card" (click)="navigateToService(service.name)">
+          <div class="service-icon">{{ getServiceIcon(service.icon) }}</div>
+          <h3 class="service-name">{{ service.name }}</h3>
+          <p class="service-description">{{ service.description }}</p>
+          <span class="service-category">{{ service.category }}</span>
+          <div class="learn-more">{{ i18n.t('learnMore') }} →</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="value-section" data-reveal>
+      <div class="value-copy">
+        <span class="subtitle">{{ i18n.t('chooseUs') }}</span>
+        <h2>{{ i18n.t('cleanSpaces') }}</h2>
+        <p>We combine quality, safety, and convenience to deliver housekeeping and maintenance support that fits your lifestyle.</p>
+      </div>
+
+      <div class="value-points">
+        <div class="value-item">
+          <span class="value-icon">🛡️</span>
+          <div>
+            <h3>Verified professionals</h3>
+            <p>Background-checked, trained, and service-focused teams.</p>
+          </div>
+        </div>
+        <div class="value-item">
+          <span class="value-icon">📋</span>
+          <div>
+            <h3>Transparent process</h3>
+            <p>Clear scheduling, straightforward pricing, and updates at every step.</p>
+          </div>
+        </div>
+        <div class="value-item">
+          <span class="value-icon">💬</span>
+          <div>
+            <h3>Responsive support</h3>
+            <p>Quick help for queries, changes, and service requests.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="process-section" id="process" data-reveal>
+      <div class="section-heading center">
+        <span class="subtitle">{{ i18n.t('howItWorks') }}</span>
+        <h2>{{ i18n.t('howSimple') }}</h2>
+      </div>
+
+      <div class="process-grid">
+        <div class="process-card">
+          <span class="step-number">01</span>
+          <h3>Share your needs</h3>
+          <p>Tell us the service, timing, and preferences.</p>
+        </div>
+        <div class="process-card">
+          <span class="step-number">02</span>
+          <h3>Get a quote</h3>
+          <p>Receive a tailored estimate with transparent pricing.</p>
+        </div>
+        <div class="process-card">
+          <span class="step-number">03</span>
+          <h3>Enjoy peace of mind</h3>
+          <p>Our team arrives, performs the work, and follows up.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonial-section" data-reveal>
+      <div class="testimonial-heading">
+        <span class="subtitle">Client stories</span>
+        <h2>Trusted by people who value a job well done.</h2>
+      </div>
+      <div class="testimonial-grid">
+        <article class="testimonial-card">
+          <div class="quote-mark">“</div>
+          <p>Perfect Multi Services gave our office a fresh start. The team was punctual, professional, and incredibly thorough.</p>
+          <div class="testimonial-person"><span>AS</span><div><strong>Ananya Shah</strong><small>Office manager</small></div></div>
+        </article>
+        <article class="testimonial-card featured-testimonial">
+          <div class="quote-mark">“</div>
+          <p>It feels wonderful coming home to a space that is cared for properly. The booking process was simple from start to finish.</p>
+          <div class="testimonial-person"><span>RK</span><div><strong>Rohan Kulkarni</strong><small>Residential client</small></div></div>
+        </article>
+        <article class="testimonial-card">
+          <div class="quote-mark">“</div>
+          <p>Reliable support, transparent pricing, and a team that genuinely listens. They are now our go-to service partner.</p>
+          <div class="testimonial-person"><span>NP</span><div><strong>Neha Patil</strong><small>Facility coordinator</small></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="contact-section" data-reveal>
+      <div class="contact-card">
+        <div class="contact-copy">
+          <span class="subtitle light">Need a custom quote?</span>
+          <h2>Let’s plan the right service for your property.</h2>
+        </div>
+
+        <div class="contact-info">
+          <div class="contact-item">
+            <span class="icon">📧</span>
+            <span>{{ companyInfo.contactEmail }}</span>
+          </div>
+          <div class="contact-item">
+            <span class="icon">📞</span>
+            <span>{{ companyInfo.phone }}</span>
+          </div>
+          <div class="contact-item">
+            <span class="icon">📍</span>
+            <span>{{ companyInfo.location }}</span>
+          </div>
+        </div>
+
+        <div class="cta-buttons">
+          <button (click)="router.navigate(['/contact'])" class="cta-button">Get a Quote</button>
+          <button (click)="router.navigate(['/about'])" class="secondary-button">Learn More</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

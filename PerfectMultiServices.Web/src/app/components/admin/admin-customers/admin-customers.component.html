@@ -1,0 +1,223 @@
+<div class="customers-container">
+  <!-- Header -->
+  <div class="page-header">
+    <h1>Customer Management</h1>
+    <div class="header-stats">
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+          <div class="stat-number">{{ getTotalCustomers() }}</div>
+          <div class="stat-label">Total Customers</div>
+        </div>
+      </div>
+      <div class="stat-card active">
+        <div class="stat-icon">✅</div>
+        <div class="stat-info">
+          <div class="stat-number">{{ getActiveCustomers() }}</div>
+          <div class="stat-label">Active</div>
+        </div>
+      </div>
+      <div class="stat-card blocked">
+        <div class="stat-icon">🚫</div>
+        <div class="stat-info">
+          <div class="stat-number">{{ getBlockedCustomers() }}</div>
+          <div class="stat-label">Blocked</div>
+        </div>
+      </div>
+      <div class="stat-card revenue">
+        <div class="stat-icon">💰</div>
+        <div class="stat-info">
+          <div class="stat-number">{{ formatCurrency(getTotalRevenue()) }}</div>
+          <div class="stat-label">Total Revenue</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section">
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery" 
+        (input)="filterCustomers()"
+        placeholder="Search customers by name, email, phone..."
+        class="search-input"
+      >
+    </div>
+    <div class="filter-group">
+      <select [(ngModel)]="selectedStatus" (change)="filterCustomers()" class="filter-select">
+        <option *ngFor="let status of statuses" [value]="status">
+          {{ status === 'all' ? 'All Status' : status.charAt(0).toUpperCase() + status.slice(1) }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Customers Table -->
+  <div class="customers-table-container">
+    <table class="customers-table">
+      <thead>
+        <tr>
+          <th>Customer ID</th>
+          <th>Name</th>
+          <th>Contact</th>
+          <th>Address</th>
+          <th>Registration</th>
+          <th>Bookings</th>
+          <th>Total Spent</th>
+          <th>Rating</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let customer of filteredCustomers">
+          <td>
+            <div class="customer-id">{{ customer.id }}</div>
+          </td>
+          <td>
+            <div class="customer-name">{{ customer.name }}</div>
+            <div class="customer-email">{{ customer.email }}</div>
+          </td>
+          <td>
+            <div class="customer-phone">{{ customer.phone }}</div>
+          </td>
+          <td>
+            <div class="customer-address">{{ customer.address }}</div>
+          </td>
+          <td>
+            <div class="registration-date">{{ customer.registrationDate }}</div>
+          </td>
+          <td>
+            <div class="bookings-count">{{ customer.totalBookings }}</div>
+          </td>
+          <td>
+            <div class="total-spent">{{ formatCurrency(customer.totalSpent) }}</div>
+          </td>
+          <td>
+            <div class="rating-stars" [title]="customer.averageRating">
+              {{ getRatingStars(customer.averageRating || 0) }}
+            </div>
+          </td>
+          <td>
+            <span [class]="getStatusClass(customer.status)">
+              {{ customer.status }}
+            </span>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <button (click)="openCustomerDetails(customer)" class="action-btn view" title="View Details">
+                👁️
+              </button>
+              <button class="action-btn edit" title="Edit">
+                ✏️
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="filteredCustomers.length === 0" class="no-results">
+      <p>No customers found matching your criteria.</p>
+    </div>
+  </div>
+
+  <!-- Customer Details Modal -->
+  <div *ngIf="isModalOpen && selectedCustomer" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Customer Details - {{ selectedCustomer.id }}</h2>
+        <button (click)="closeModal()" class="close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="customer-profile">
+          <div class="profile-header">
+            <div class="profile-avatar">👤</div>
+            <div class="profile-info">
+              <h3>{{ selectedCustomer.name }}</h3>
+              <p>{{ selectedCustomer.email }}</p>
+              <p>{{ selectedCustomer.phone }}</p>
+            </div>
+          </div>
+
+          <div class="customer-stats">
+            <div class="stat-item">
+              <div class="stat-label">Total Bookings</div>
+              <div class="stat-value">{{ selectedCustomer.totalBookings }}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Total Spent</div>
+              <div class="stat-value">{{ formatCurrency(selectedCustomer.totalSpent) }}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Average Rating</div>
+              <div class="stat-value rating">{{ getRatingStars(selectedCustomer.averageRating || 0) }}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Status</div>
+              <div class="stat-value">
+                <span [class]="getStatusClass(selectedCustomer.status)">
+                  {{ selectedCustomer.status }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="customer-details-grid">
+          <div class="detail-section">
+            <h3>Contact Information</h3>
+            <div class="detail-row">
+              <span class="detail-label">Email:</span>
+              <span class="detail-value">{{ selectedCustomer.email }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Phone:</span>
+              <span class="detail-value">{{ selectedCustomer.phone }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Address:</span>
+              <span class="detail-value">{{ selectedCustomer.address }}</span>
+            </div>
+          </div>
+
+          <div class="detail-section">
+            <h3>Account Information</h3>
+            <div class="detail-row">
+              <span class="detail-label">Customer ID:</span>
+              <span class="detail-value">{{ selectedCustomer.id }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Registration Date:</span>
+              <span class="detail-value">{{ selectedCustomer.registrationDate }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Last Booking:</span>
+              <span class="detail-value">{{ selectedCustomer.lastBookingDate || 'No bookings yet' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-section">
+          <h3>Account Actions</h3>
+          <div class="action-buttons-grid">
+            <button (click)="updateCustomerStatus('active')" class="action-card activate" [disabled]="selectedCustomer.status === 'active'">
+              ✅ Activate
+            </button>
+            <button (click)="updateCustomerStatus('inactive')" class="action-card deactivate" [disabled]="selectedCustomer.status === 'inactive'">
+              ⏸️ Deactivate
+            </button>
+            <button (click)="blockCustomer()" class="action-card block" [disabled]="selectedCustomer.status === 'blocked'">
+              🚫 Block Customer
+            </button>
+            <button (click)="unblockCustomer()" class="action-card unblock" [disabled]="selectedCustomer.status !== 'blocked'">
+              🔓 Unblock
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,157 @@
+<div class="dashboard-container">
+  <!-- Statistics Cards -->
+  <div class="stats-grid">
+    <div class="stat-card primary">
+      <div class="stat-icon">👥</div>
+      <div class="stat-content">
+        <h3>{{ stats.totalCustomers }}</h3>
+        <p>Total Customers</p>
+      </div>
+    </div>
+    <div class="stat-card success">
+      <div class="stat-icon">📅</div>
+      <div class="stat-content">
+        <h3>{{ stats.todayBookings }}</h3>
+        <p>Today's Bookings</p>
+      </div>
+    </div>
+    <div class="stat-card warning">
+      <div class="stat-icon">⏳</div>
+      <div class="stat-content">
+        <h3>{{ stats.pendingBookings }}</h3>
+        <p>Pending Bookings</p>
+      </div>
+    </div>
+    <div class="stat-card info">
+      <div class="stat-icon">✅</div>
+      <div class="stat-content">
+        <h3>{{ stats.completedBookings }}</h3>
+        <p>Completed Bookings</p>
+      </div>
+    </div>
+    <div class="stat-card danger">
+      <div class="stat-icon">❌</div>
+      <div class="stat-content">
+        <h3>{{ stats.cancelledBookings }}</h3>
+        <p>Cancelled Bookings</p>
+      </div>
+    </div>
+    <div class="stat-card revenue">
+      <div class="stat-icon">💰</div>
+      <div class="stat-content">
+        <h3>{{ formatCurrency(stats.totalRevenue) }}</h3>
+        <p>Total Revenue</p>
+      </div>
+    </div>
+    <div class="stat-card pending">
+      <div class="stat-icon">💳</div>
+      <div class="stat-content">
+        <h3>{{ formatCurrency(stats.pendingPayments) }}</h3>
+        <p>Pending Payments</p>
+      </div>
+    </div>
+    <div class="stat-card staff">
+      <div class="stat-icon">👨‍💼</div>
+      <div class="stat-content">
+        <h3>{{ stats.activeStaff }}</h3>
+        <p>Active Staff</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts and Tables Section -->
+  <div class="dashboard-content">
+    <!-- Revenue Chart -->
+    <div class="chart-section">
+      <div class="section-header">
+        <h2>Revenue Overview</h2>
+        <select class="time-filter">
+          <option>Last 6 Months</option>
+          <option>Last Year</option>
+          <option>All Time</option>
+        </select>
+      </div>
+      <div class="chart-container">
+        <div class="simple-chart">
+          <div *ngFor="let data of revenueData" class="chart-bar">
+            <div class="bar" [style.height]="(data.revenue / 200000 * 100) + '%'"></div>
+            <div class="bar-label">{{ data.month }}</div>
+            <div class="bar-value">{{ formatCurrency(data.revenue) }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Bookings -->
+    <div class="bookings-section">
+      <div class="section-header">
+        <h2>Recent Bookings</h2>
+        <button class="view-all-btn">View All</button>
+      </div>
+      <div class="bookings-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Booking ID</th>
+              <th>Customer</th>
+              <th>Service</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Amount</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let booking of recentBookings">
+              <td>{{ booking.id }}</td>
+              <td>{{ booking.customer }}</td>
+              <td>{{ booking.service }}</td>
+              <td>{{ booking.date }}</td>
+              <td>
+                <span [class]="getStatusClass(booking.status)">
+                  {{ booking.status }}
+                </span>
+              </td>
+              <td>{{ formatCurrency(booking.amount) }}</td>
+              <td>
+                <button class="action-btn view">View</button>
+                <button class="action-btn edit">Edit</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <h2>Quick Actions</h2>
+    <div class="actions-grid">
+      <button class="action-card">
+        <span class="action-icon">➕</span>
+        <span>New Booking</span>
+      </button>
+      <button class="action-card">
+        <span class="action-icon">👨‍💼</span>
+        <span>Assign Staff</span>
+      </button>
+      <button class="action-card">
+        <span class="action-icon">📊</span>
+        <span>Generate Report</span>
+      </button>
+      <button class="action-card">
+        <span class="action-icon">🎫</span>
+        <span>Create Offer</span>
+      </button>
+      <button class="action-card">
+        <span class="action-icon">📧</span>
+        <span>Send Notification</span>
+      </button>
+      <button class="action-card">
+        <span class="action-icon">⚠️</span>
+        <span>View Complaints</span>
+      </button>
+    </div>
+  </div>
+</div>

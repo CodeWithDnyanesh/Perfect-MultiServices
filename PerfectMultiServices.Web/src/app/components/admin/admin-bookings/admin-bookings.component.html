@@ -1,0 +1,210 @@
+<div class="bookings-container">
+  <!-- Header -->
+  <div class="page-header">
+    <h1>Booking Management</h1>
+    <div class="header-stats">
+      <div class="stat-badge">
+        <span class="stat-number">{{ getBookingsCount() }}</span>
+        <span class="stat-label">Total</span>
+      </div>
+      <div class="stat-badge pending">
+        <span class="stat-number">{{ getPendingCount() }}</span>
+        <span class="stat-label">Pending</span>
+      </div>
+      <div class="stat-badge confirmed">
+        <span class="stat-number">{{ getConfirmedCount() }}</span>
+        <span class="stat-label">Confirmed</span>
+      </div>
+      <div class="stat-badge completed">
+        <span class="stat-number">{{ getCompletedCount() }}</span>
+        <span class="stat-label">Completed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section">
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery" 
+        (input)="filterBookings()"
+        placeholder="Search bookings..."
+        class="search-input"
+      >
+    </div>
+    <div class="filter-group">
+      <select [(ngModel)]="selectedStatus" (change)="filterBookings()" class="filter-select">
+        <option *ngFor="let status of statuses" [value]="status">
+          {{ status === 'all' ? 'All Status' : status.charAt(0).toUpperCase() + status.slice(1) }}
+        </option>
+      </select>
+      <select [(ngModel)]="selectedDateFilter" (change)="filterBookings()" class="filter-select">
+        <option *ngFor="let filter of dateFilters" [value]="filter">
+          {{ filter === 'all' ? 'All Time' : filter.charAt(0).toUpperCase() + filter.slice(1) }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Bookings Table -->
+  <div class="bookings-table-container">
+    <table class="bookings-table">
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>Customer</th>
+          <th>Service</th>
+          <th>Date & Time</th>
+          <th>Address</th>
+          <th>Staff</th>
+          <th>Status</th>
+          <th>Amount</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of filteredBookings">
+          <td>
+            <div class="booking-id">{{ booking.id }}</div>
+          </td>
+          <td>
+            <div class="customer-info">
+              <div class="customer-name">{{ booking.customerName }}</div>
+              <div class="customer-phone">{{ booking.customerPhone }}</div>
+            </div>
+          </td>
+          <td>
+            <div class="service-name">{{ booking.service }}</div>
+          </td>
+          <td>
+            <div class="datetime-info">
+              <div class="booking-date">{{ booking.date }}</div>
+              <div class="booking-time">{{ booking.time }}</div>
+            </div>
+          </td>
+          <td>
+            <div class="address-text">{{ booking.address }}</div>
+          </td>
+          <td>
+            <div class="staff-info">
+              {{ booking.assignedStaff || 'Unassigned' }}
+            </div>
+          </td>
+          <td>
+            <span [class]="getStatusClass(booking.status)">
+              {{ booking.status }}
+            </span>
+          </td>
+          <td>
+            <div class="amount">{{ formatCurrency(booking.amount) }}</div>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <button (click)="openBookingDetails(booking)" class="action-btn view" title="View Details">
+                👁️
+              </button>
+              <button class="action-btn edit" title="Edit">
+                ✏️
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="filteredBookings.length === 0" class="no-results">
+      <p>No bookings found matching your criteria.</p>
+    </div>
+  </div>
+
+  <!-- Booking Details Modal -->
+  <div *ngIf="isModalOpen && selectedBooking" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Booking Details - {{ selectedBooking.id }}</h2>
+        <button (click)="closeModal()" class="close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="booking-details-grid">
+          <div class="detail-section">
+            <h3>Customer Information</h3>
+            <div class="detail-row">
+              <span class="detail-label">Name:</span>
+              <span class="detail-value">{{ selectedBooking.customerName }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Phone:</span>
+              <span class="detail-value">{{ selectedBooking.customerPhone }}</span>
+            </div>
+          </div>
+
+          <div class="detail-section">
+            <h3>Service Information</h3>
+            <div class="detail-row">
+              <span class="detail-label">Service:</span>
+              <span class="detail-value">{{ selectedBooking.service }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Amount:</span>
+              <span class="detail-value">{{ formatCurrency(selectedBooking.amount) }}</span>
+            </div>
+          </div>
+
+          <div class="detail-section">
+            <h3>Schedule</h3>
+            <div class="detail-row">
+              <span class="detail-label">Date:</span>
+              <span class="detail-value">{{ selectedBooking.date }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Time:</span>
+              <span class="detail-value">{{ selectedBooking.time }}</span>
+            </div>
+          </div>
+
+          <div class="detail-section">
+            <h3>Location</h3>
+            <div class="detail-row">
+              <span class="detail-label">Address:</span>
+              <span class="detail-value">{{ selectedBooking.address }}</span>
+            </div>
+          </div>
+
+          <div class="detail-section">
+            <h3>Staff Assignment</h3>
+            <div class="detail-row">
+              <span class="detail-label">Assigned:</span>
+              <span class="detail-value">{{ selectedBooking.assignedStaff || 'Not assigned' }}</span>
+            </div>
+          </div>
+
+          <div class="detail-section" *ngIf="selectedBooking.notes">
+            <h3>Notes</h3>
+            <div class="detail-row">
+              <span class="detail-value notes">{{ selectedBooking.notes }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-section">
+          <h3>Quick Actions</h3>
+          <div class="action-buttons-grid">
+            <button (click)="updateBookingStatus('confirmed')" class="action-card confirm" [disabled]="selectedBooking.status === 'confirmed'">
+              ✅ Confirm
+            </button>
+            <button (click)="updateBookingStatus('in-progress')" class="action-card progress" [disabled]="selectedBooking.status === 'in-progress'">
+              🔄 Start Service
+            </button>
+            <button (click)="updateBookingStatus('completed')" class="action-card complete" [disabled]="selectedBooking.status === 'completed'">
+              ✨ Complete
+            </button>
+            <button (click)="updateBookingStatus('cancelled')" class="action-card cancel" [disabled]="selectedBooking.status === 'cancelled'">
+              ❌ Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

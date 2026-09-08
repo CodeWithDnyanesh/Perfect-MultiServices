@@ -1,0 +1,51 @@
+<footer class="footer" data-reveal>
+  <div class="footer-container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <img class="footer-logo" src="assets/perfect-multi-services-logo.png" alt="Perfect Multi Services" />
+        <h3>Perfect Multi Services</h3>
+        <p>{{ i18n.t('footerDescription') }}</p>
+        <div class="social-links">
+          <a href="#" class="social-link">📘</a>
+          <a href="#" class="social-link">📸</a>
+          <a href="#" class="social-link">🐦</a>
+          <a href="#" class="social-link">💼</a>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h3>{{ i18n.t('quickLinks') }}</h3>
+        <ul class="footer-links">
+          <li><a routerLink="/">{{ i18n.t('home') }}</a></li>
+          <li><a routerLink="/about">{{ i18n.t('about') }}</a></li>
+          <li><a routerLink="/services">{{ i18n.t('services') }}</a></li>
+          <li><a routerLink="/how-it-works">{{ i18n.t('howItWorks') }}</a></li>
+          <li><a routerLink="/contact">{{ i18n.t('contact') }}</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>{{ i18n.t('services') }}</h3>
+        <ul class="footer-links">
+          <li><a routerLink="/service/housekeeping-services">{{ i18n.t('housekeeping') }}</a></li>
+          <li><a routerLink="/service/maintenance-services">{{ i18n.t('maintenance') }}</a></li>
+          <li><a routerLink="/service/industrial-cleaning">{{ i18n.t('industrialCleaning') }}</a></li>
+          <li><a routerLink="/service/office-maintenance">{{ i18n.t('officeMaintenance') }}</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>{{ i18n.t('contactInfo') }}</h3>
+        <ul class="contact-info">
+          <li>📍 Sangli, Maharashtra</li>
+          <li>📧 info@perfectmultiservices.com</li>
+          <li>📞 +91 XXXXXXXXXX</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; {{ currentYear }} Perfect Multi Services Pvt. Ltd. {{ i18n.t('allRights') }}</p>
+    </div>
+  </div>
+</footer>

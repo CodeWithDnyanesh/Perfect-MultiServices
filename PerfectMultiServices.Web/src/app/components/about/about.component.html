@@ -1,0 +1,107 @@
+<div class="about-container">
+  <!-- Hero Section -->
+  <div class="about-hero">
+    <h1>{{ i18n.t('aboutEyebrow') }}</h1>
+    <p>{{ i18n.t('aboutDescription') }}</p>
+  </div>
+
+  <!-- Company Story -->
+  <div class="company-story">
+    <div class="story-content">
+      <h2>Our Story</h2>
+      <p>
+        Perfect Multi Services Pvt. Ltd. has been serving the Sangli, Maharashtra region with excellence for over a decade. 
+        What started as a small housekeeping service has grown into a comprehensive maintenance and cleaning solutions provider 
+        for homes, offices, and industrial facilities.
+      </p>
+      <p>
+        Our commitment to quality, reliability, and customer satisfaction has made us a trusted choice for residential,
+        commercial, and industrial requirements across the Sangli region. We believe a clean, safe, and well-maintained
+        environment supports productivity, health, and peace of mind.
+      </p>
+      <p>
+        With trained professionals, practical checklists, and modern equipment, we deliver dependable service at a
+        transparent price. From a one-time request to a recurring service plan, our philosophy is simple: treat every
+        space as if it were our own.
+      </p>
+    </div>
+  </div>
+
+  <!-- Statistics -->
+  <div class="stats-section">
+    <div class="stats-grid">
+      <div *ngFor="let stat of companyStats" class="stat-card">
+        <div class="stat-number">{{ stat.number }}</div>
+        <div class="stat-label">{{ stat.label }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Our Values -->
+  <div class="values-section">
+    <h2>Our Core Values</h2>
+    <div class="values-grid">
+      <div *ngFor="let value of values" class="value-card">
+        <div class="value-icon">{{ value.icon }}</div>
+        <h3>{{ value.title }}</h3>
+        <p>{{ value.description }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why Choose Us -->
+  <div class="why-choose-section">
+    <h2>Why Choose Us?</h2>
+    <div class="features-list">
+      <div class="feature-item">
+        <div class="feature-icon">✓</div>
+        <div class="feature-text">
+          <h3>Professional Team</h3>
+          <p>Our staff is trained, background-checked, and dedicated to excellence.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">✓</div>
+        <div class="feature-text">
+          <h3>Customized Solutions</h3>
+          <p>Tailored services to meet your specific needs and budget.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">✓</div>
+        <div class="feature-text">
+          <h3>Eco-Friendly Products</h3>
+          <p>We use safe, environmentally friendly cleaning products.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">✓</div>
+        <div class="feature-text">
+          <h3>Flexible Scheduling</h3>
+          <p>Services available at your convenience, including weekends.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">✓</div>
+        <div class="feature-text">
+          <h3>Satisfaction Guaranteed</h3>
+          <p>We're not happy until you're happy with our work.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">✓</div>
+        <div class="feature-text">
+          <h3>Competitive Pricing</h3>
+          <p>Quality services at affordable rates with no hidden charges.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <div class="cta-section">
+    <h2>Ready to Experience Our Services?</h2>
+    <p>Contact us today for a free consultation and quote</p>
+    <button (click)="navigateToContact()" class="cta-button">Get in Touch</button>
+  </div>
+</div>

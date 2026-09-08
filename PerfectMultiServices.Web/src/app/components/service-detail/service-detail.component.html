@@ -1,0 +1,56 @@
+<div class="service-detail-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading service details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-container">
+    <p>{{ error }}</p>
+    <button (click)="goBack()" class="back-button">Go Back</button>
+  </div>
+
+  <!-- Service Details -->
+  <div *ngIf="!loading && !error && service && getServiceDetails()" class="service-content">
+    <!-- Header -->
+    <div class="service-header">
+      <button (click)="goBack()" class="back-link">← Back to Services</button>
+      <div class="service-icon-large">{{ getServiceIcon(service.icon) }}</div>
+      <h1>{{ service.name }}</h1>
+      <span class="service-category">{{ service.category }}</span>
+    </div>
+
+    <!-- Description -->
+    <div class="service-description">
+      <p>{{ getServiceDetails().description }}</p>
+    </div>
+
+    <!-- Features -->
+    <div class="service-features">
+      <h2>What We Offer</h2>
+      <ul class="features-list">
+        <li *ngFor="let feature of getServiceDetails().features">
+          <span class="feature-bullet">✓</span>
+          {{ feature }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Pricing -->
+    <div class="service-pricing">
+      <h2>Pricing</h2>
+      <div class="pricing-card">
+        <div class="pricing-amount">{{ getServiceDetails().pricing }}</div>
+        <p class="pricing-note">*Final pricing may vary based on specific requirements and scope of work</p>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="service-cta">
+      <h2>Ready to Get Started?</h2>
+      <p>Contact us for a detailed quote tailored to your needs</p>
+      <button (click)="navigateToContact()" class="cta-button">Request Quote</button>
+    </div>
+  </div>
+</div>

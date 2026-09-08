@@ -1,0 +1,32 @@
+<main class="process-page">
+  <section class="process-hero">
+    <span class="eyebrow">{{ i18n.t('processEyebrow') }}</span>
+    <h1>{{ i18n.t('processTitle') }}</h1>
+    <p>{{ i18n.t('processDescription') }}</p>
+  </section>
+
+  <section class="steps-section">
+    <div class="section-heading">
+      <span class="section-label">{{ i18n.t('approach') }}</span>
+      <h2>{{ i18n.t('fourSteps') }}</h2>
+    </div>
+    <div class="steps-grid">
+      <article class="step-card" *ngFor="let step of steps">
+        <span class="step-number">{{ step.number }}</span>
+        <div class="step-icon">{{ step.icon }}</div>
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.text }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="promise-section">
+    <div class="promise-icon">🛡️</div>
+    <div>
+      <span class="section-label">{{ i18n.t('servicePromise') }}</span>
+      <h2>{{ i18n.t('servicePromise') }}</h2>
+      <p>We aim to make every interaction straightforward, every visit dependable, and every space feel better cared for.</p>
+    </div>
+  </section>
+  <button class="primary-button" (click)="requestQuote()">{{ i18n.t('startConversation') }} <span>↗</span></button>
+</main>

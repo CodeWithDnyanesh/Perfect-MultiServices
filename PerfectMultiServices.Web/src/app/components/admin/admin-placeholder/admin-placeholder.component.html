@@ -1,0 +1,36 @@
+<div class="placeholder-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Operations</p>
+      <h1>{{ pageTitle }}</h1>
+    </div>
+    <button class="primary-btn">Add {{ pageTitle }}</button>
+  </header>
+
+  <section class="stats-grid">
+    <article class="stat-card" *ngFor="let stat of summaryStats" [class]="'tone-' + stat.tone">
+      <div class="stat-label">{{ stat.label }}</div>
+      <div class="stat-value">{{ stat.value }}</div>
+    </article>
+  </section>
+
+  <section class="content-grid">
+    <div class="panel overview-panel">
+      <h2>Overview</h2>
+      <ul>
+        <li *ngFor="let item of overview">{{ item }}</li>
+      </ul>
+    </div>
+
+    <div class="panel activity-panel">
+      <h2>Recent Activity</h2>
+      <div class="activity-item" *ngFor="let item of activity">
+        <div class="item-header">
+          <strong>{{ item.title }}</strong>
+          <span>{{ item.time }}</span>
+        </div>
+        <p>{{ item.detail }}</p>
+      </div>
+    </div>
+  </section>
+</div>

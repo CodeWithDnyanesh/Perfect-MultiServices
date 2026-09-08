@@ -1,0 +1,35 @@
+<main class="services-page">
+  <section class="services-hero">
+    <span class="eyebrow">{{ i18n.t('servicesEyebrow') }}</span>
+    <h1>{{ i18n.t('servicesTitle') }}</h1>
+    <p>{{ i18n.t('servicesDescription') }}</p>
+    <button class="primary-button" (click)="requestQuote()">{{ i18n.t('requestQuote') }} <span>↗</span></button>
+  </section>
+
+  <section class="services-intro">
+    <span class="section-label">{{ i18n.t('capabilities') }}</span>
+    <h2>{{ i18n.t('capabilitiesTitle') }}</h2>
+    <p>{{ i18n.t('capabilitiesText') }}</p>
+  </section>
+
+  <section class="service-groups">
+    <article class="service-group" *ngFor="let group of serviceGroups">
+      <div class="group-icon">{{ group.icon }}</div>
+      <h3>{{ i18n.t(group.title) }}</h3>
+      <p>{{ group.description }}</p>
+      <ul>
+        <li *ngFor="let service of group.services">{{ service }}</li>
+      </ul>
+      <button class="text-button" (click)="requestQuote()">{{ i18n.t('planService') }} <span>→</span></button>
+    </article>
+  </section>
+
+  <section class="services-cta">
+    <div>
+      <span class="section-label">{{ i18n.t('specific') }}</span>
+      <h2>{{ i18n.t('tellUs') }}</h2>
+      <p>We will understand the requirement, recommend the right approach, and share a clear next step.</p>
+    </div>
+    <button class="primary-button" (click)="requestQuote()">{{ i18n.t('talkTeam') }}</button>
+  </section>
+</main>

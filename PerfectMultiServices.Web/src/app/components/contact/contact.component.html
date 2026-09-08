@@ -1,0 +1,128 @@
+<div class="contact-container">
+  <div class="contact-header">
+    <h2>{{ i18n.t('contactTitle') }}</h2>
+    <p>{{ i18n.t('contactDescription') }}</p>
+  </div>
+
+  <div class="contact-intro">
+    <span>{{ i18n.t('whatNext') }}</span>
+    <p>{{ i18n.t('capabilitiesText') }}</p>
+  </div>
+
+  <!-- Success Message -->
+  <div *ngIf="submitSuccess" class="success-message">
+    <div class="success-icon">✓</div>
+    <h3>{{ i18n.t('thankYou') }}</h3>
+    <p>{{ i18n.t('willContact') }}</p>
+    <button (click)="submitSuccess = false" class="close-button">{{ i18n.t('sendAnother') }}</button>
+  </div>
+
+  <!-- Contact Form -->
+  <div *ngIf="!submitSuccess" class="contact-form">
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">{{ i18n.t('fullName') }} *</label>
+        <input 
+          type="text" 
+          id="name" 
+          name="name" 
+          [(ngModel)]="contactRequest.name" 
+          required
+          placeholder="Enter your full name"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="email">{{ i18n.t('emailAddress') }} *</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          [(ngModel)]="contactRequest.email" 
+          required
+          placeholder="Enter your email address"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="phone">{{ i18n.t('phoneNumber') }}</label>
+        <input 
+          type="tel" 
+          id="phone" 
+          name="phone" 
+          [(ngModel)]="contactRequest.phone" 
+          placeholder="Enter your phone number"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="service">{{ i18n.t('services') }} *</label>
+        <select 
+          id="service" 
+          name="service" 
+          [(ngModel)]="contactRequest.service" 
+          required
+        >
+          <option value="">{{ i18n.t('selectService') }}</option>
+          <option *ngFor="let service of services" [value]="service">
+            {{ service }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="message">{{ i18n.t('message') }} *</label>
+        <textarea 
+          id="message" 
+          name="message" 
+          [(ngModel)]="contactRequest.message" 
+          required
+          rows="5"
+          placeholder="Tell us about your requirements..."
+        ></textarea>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="submitError" class="error-message">
+        {{ submitError }}
+      </div>
+
+      <button 
+        type="submit" 
+        class="submit-button" 
+        [disabled]="isSubmitting"
+      >
+        <span *ngIf="!isSubmitting">{{ i18n.t('sendMessage') }}</span>
+        <span *ngIf="isSubmitting">{{ i18n.t('loading') }}</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- Contact Information -->
+  <div class="contact-info">
+    <h3>{{ i18n.t('otherWays') }}</h3>
+    <div class="contact-methods">
+      <div class="contact-method">
+        <div class="method-icon">📍</div>
+        <div class="method-details">
+          <h4>{{ i18n.t('location') }}</h4>
+          <p>{{ companyInfo?.location || 'Sangli, Maharashtra' }}</p>
+        </div>
+      </div>
+      <div class="contact-method">
+        <div class="method-icon">📧</div>
+        <div class="method-details">
+          <h4>{{ i18n.t('email') }}</h4>
+          <p>{{ companyInfo?.contactEmail || 'info@perfectmultiservices.com' }}</p>
+        </div>
+      </div>
+      <div class="contact-method">
+        <div class="method-icon">📞</div>
+        <div class="method-details">
+          <h4>{{ i18n.t('phone') }}</h4>
+          <p>{{ companyInfo?.phone || '+91 XXXXXXXXXX' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

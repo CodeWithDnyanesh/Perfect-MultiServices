@@ -1,0 +1,78 @@
+<div class="admin-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.collapsed]="!isSidebarOpen">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="logo-icon">🧹</span>
+        <span class="logo-text" *ngIf="isSidebarOpen">Admin Panel</span>
+      </div>
+      <button class="toggle-btn" (click)="toggleSidebar()">
+        <span *ngIf="isSidebarOpen">◀</span>
+        <span *ngIf="!isSidebarOpen">▶</span>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📊</span>
+        <span class="nav-text" *ngIf="isSidebarOpen">Dashboard</span>
+      </a>
+      <a routerLink="/admin/services" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🔧</span>
+        <span class="nav-text" *ngIf="isSidebarOpen">Services</span>
+      </a>
+      <a routerLink="/admin/bookings" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📅</span>
+        <span class="nav-text" *ngIf="isSidebarOpen">Bookings</span>
+      </a>
+      <a routerLink="/admin/customers" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">👥</span>
+        <span class="nav-text" *ngIf="isSidebarOpen">Customers</span>
+      </a>
+      <a routerLink="/admin/staff" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">👨‍💼</span>
+        <span class="nav-text" *ngIf="isSidebarOpen">Staff</span>
+      </a>
+      <a routerLink="/admin/payments" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">💳</span>
+        <span class="nav-text" *ngIf="isSidebarOpen">Payments</span>
+      </a>
+      <a routerLink="/admin/reports" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📈</span>
+        <span class="nav-text" *ngIf="isSidebarOpen">Reports</span>
+      </a>
+      <a routerLink="/admin/settings" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-text" *ngIf="isSidebarOpen">Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer" *ngIf="isSidebarOpen">
+      <button (click)="logout()" class="logout-btn">
+        <span class="logout-icon">🚪</span>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <h1>Perfect Multi Services Admin</h1>
+      </div>
+      <div class="header-right">
+        <div class="user-info">
+          <span class="user-avatar">👤</span>
+          <span class="user-name">Admin User</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
