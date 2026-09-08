@@ -27,9 +27,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
-
 app.UseCors("AllowAngularApp");
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 // In-memory data storage
 var services = new List<Service>
@@ -375,6 +375,8 @@ app.MapGet("/api/admin/dashboard/stats", () =>
 
 app.MapGet("/api/customers", () => customers)
 .WithName("GetCustomers");
+
+app.MapFallbackToFile("index.html");
 
 app.Run();
 

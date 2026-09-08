@@ -72,7 +72,7 @@ export interface Customer {
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:5050/api';
+  private apiUrl = '/api';
 
   constructor(private http: HttpClient) {}
 

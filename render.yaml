@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: perfect-multi-services
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/company
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
