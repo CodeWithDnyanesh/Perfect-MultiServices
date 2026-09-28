@@ -1,1 +1,199 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --app-font-family: 'Valley Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html, body, button, input, textarea, select {
+  font-family: var(--app-font-family);
+}
+
+/* Marathi: Mukta is a professional Devanagari face; component styles hard-code
+   the Latin font, so it is applied to every element under the Marathi locale. */
+html:lang(mr) {
+  --app-font-family: 'Mukta', 'Noto Sans Devanagari', 'Nirmala UI', 'Mangal', sans-serif;
+}
+
+html:lang(mr) body,
+html:lang(mr) body *:not(svg):not(svg *) {
+  font-family: var(--app-font-family) !important;
+  letter-spacing: normal !important;
+}
+
+html:lang(mr) body {
+  line-height: 1.7;
+}
+
+html:lang(mr) :is(h1, h2, h3, .company-name) {
+  line-height: 1.25 !important;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  font-family: var(--app-font-family);
+  line-height: 1.6;
+  color: #333;
+  background: #f5f5f5;
+}
+
+/* Keep the shared theme warm and consistent across legacy page styles. */
+.service-detail-container,
+.about-container,
+.contact-container {
+  --theme-orange: #ec7b1b;
+  --theme-orange-dark: #d0680f;
+  --theme-orange-deep: #303030;
+}
+
+.service-detail-container {
+  background: linear-gradient(135deg, #fdf2e7 0%, #e0e0e0 52%, #ec7b1b 100%) !important;
+}
+
+.service-detail-container .back-button,
+.service-detail-container .service-header,
+.service-detail-container .service-features,
+.service-detail-container .pricing-card,
+.contact-container .close-button {
+  border-color: #e0e0e0;
+}
+
+.service-detail-container .back-button,
+.service-detail-container .back-link,
+.service-detail-container .service-header h1,
+.service-detail-container .service-content h2,
+.service-detail-container .service-content h3,
+.contact-container .close-button {
+  color: #d0680f;
+}
+
+.service-detail-container .cta-button,
+.contact-container .submit-button,
+.contact-container .success-message {
+  background: linear-gradient(135deg, #ec7b1b, #d0680f) !important;
+}
+
+.about-container a,
+.contact-container a,
+.service-detail-container a {
+  color: #d0680f;
+}
+
+.admin-layout .nav-item.active,
+.admin-layout .nav-item:hover,
+.admin-layout .logout-btn:hover,
+.admin-layout .sidebar {
+  background: linear-gradient(160deg, #303030, #d0680f) !important;
+}
+
+.admin-services .add-btn,
+.admin-services .status-active,
+.admin-services button[type='submit'] {
+  background: linear-gradient(135deg, #ec7b1b, #d0680f) !important;
+}
+
+.add-btn,
+.action-btn.view,
+.admin-layout .nav-item.active,
+.admin-layout .nav-item:hover {
+  background: linear-gradient(135deg, #ec7b1b, #d0680f) !important;
+  box-shadow: 0 8px 18px rgba(236,123,27, .2);
+}
+
+.stat-card.primary .stat-icon,
+.stat-card.success .stat-icon,
+.stat-card.warning .stat-icon,
+.stat-card.info .stat-icon,
+.dashboard-container .action-card.primary,
+.dashboard-container .action-card.secondary {
+  background: linear-gradient(135deg, #f29a4c, #d0680f) !important;
+}
+
+.search-input:focus,
+.category-select:focus,
+.form-control:focus,
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #ec7b1b !important;
+  box-shadow: 0 0 0 3px rgba(236,123,27, .14) !important;
+}
+
+@keyframes pageReveal {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes orangeShimmer {
+  0%, 100% { box-shadow: 0 8px 22px rgba(236,123,27, .08); }
+  50% { box-shadow: 0 14px 30px rgba(236,123,27, .18); }
+}
+
+.services-page,
+.process-page,
+.about-container,
+.contact-container,
+.service-detail-container,
+.admin-layout {
+  animation: pageReveal .65s ease both;
+}
+
+.service-group,
+.process-card,
+.promise-section,
+.stat-card,
+.testimonial-card,
+.coverage-card,
+.faq-item {
+  animation: pageReveal .6s ease both, orangeShimmer 4.5s ease-in-out infinite;
+}
+
+.service-group:nth-child(2),
+.process-card:nth-child(2),
+.stat-card:nth-child(2),
+.coverage-card:nth-child(2),
+.faq-item:nth-child(2) { animation-delay: .08s, .8s; }
+
+.service-group:nth-child(3),
+.process-card:nth-child(3),
+.stat-card:nth-child(3),
+.coverage-card:nth-child(3),
+.faq-item:nth-child(3) { animation-delay: .16s, 1.6s; }
+
+.service-group:nth-child(4),
+.stat-card:nth-child(4),
+.faq-item:nth-child(4) { animation-delay: .24s, 2.4s; }
+
+button,
+a,
+.service-card,
+.value-item,
+.feature-card {
+  transition: transform .25s ease, box-shadow .25s ease, color .25s ease, background-color .25s ease;
+}
+
+button:hover,
+a:hover {
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services-page,
+  .process-page,
+  .about-container,
+  .contact-container,
+  .service-detail-container,
+  .admin-layout,
+  .service-group,
+  .process-card,
+  .promise-section,
+  .stat-card,
+  .testimonial-card,
+  .coverage-card,
+  .faq-item {
+    animation: none !important;
+  }
+
+  button:hover,
+  a:hover {
+    transform: none;
+  }
+}

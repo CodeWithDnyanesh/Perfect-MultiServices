@@ -1,7 +1,7 @@
 .about-container {
   min-height: calc(100vh - 120px);
-  background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 48%, #f97316 100%);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #fdf2e7 0%, #e0e0e0 48%, #ec7b1b 100%);
+  font-family: 'Valley Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding-top: 80px;
 }
 
@@ -11,7 +11,7 @@
   backdrop-filter: blur(10px);
   padding: 80px 20px;
   text-align: center;
-  color: #431407;
+  color: #262626;
 }
 
 .about-hero h1 {
@@ -155,7 +155,7 @@
 
 .why-choose-section h2 {
   text-align: center;
-  color: #431407;
+  color: #262626;
   font-size: 2.2rem;
   margin-bottom: 40px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
@@ -181,7 +181,7 @@
 .feature-icon {
   font-size: 1.5rem;
   background: white;
-  color: #ea580c;
+  color: #dd6d12;
   width: 40px;
   height: 40px;
   border-radius: 50%;

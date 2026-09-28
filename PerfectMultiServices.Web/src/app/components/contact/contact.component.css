@@ -7,6 +7,7 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   margin-top: 80px;
   margin-bottom: 40px;
+  font-family: 'Valley Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .contact-header {
@@ -28,16 +29,16 @@
 .contact-intro {
   margin: 0 0 30px;
   padding: 18px 20px;
-  border-left: 4px solid #f97316;
+  border-left: 4px solid #ec7b1b;
   border-radius: 0 12px 12px 0;
-  background: #fff7ed;
-  color: #9a3412;
+  background: #fdf2e7;
+  color: #5f5f5f;
 }
 
 .contact-intro span {
   display: block;
   margin-bottom: 5px;
-  color: #c2410c;
+  color: #d0680f;
   font-weight: 800;
 }
 

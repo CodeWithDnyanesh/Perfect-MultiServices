@@ -14,29 +14,47 @@ import { LanguageService } from '../../services/language.service';
 })
 export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
   activeSlide = 0;
-  private carouselTimer?: ReturnType<typeof setInterval>;
+  carouselPaused = false;
+  readonly autoplay = !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  private swipeStartX: number | null = null;
+  private observer?: IntersectionObserver;
+  // Text for each slide comes from the language service: `${key}Tag`, `${key}Title`, `${key}Text`, `${key}Points`.
   carouselSlides = [
+    { key: 'promoDaily', image: 'assets/promos/daily-housekeeping.jpg' },
+    { key: 'promoKitchen', image: 'assets/promos/kitchen-cleaning.jpg' },
+    { key: 'promoHome', image: 'assets/promos/home-care.jpg' },
+    { key: 'promoSolar', image: 'assets/promos/solar-panel-cleaning.jpg' },
+    { key: 'promoSofa', image: 'assets/promos/sofa-carpet-cleaning.jpg' }
+  ];
+  specialisedServices = [
     {
-      eyebrow: 'Signature service',
-      title: 'A fresher home, without the weekend workload.',
-      description: 'Our trained housekeeping teams bring hotel-level care to your everyday spaces.',
-      icon: '🏠',
-      action: 'Book housekeeping'
+      key: 'solar',
+      image: 'assets/promos/solar-panel-cleaning.jpg',
+      features: [
+        { icon: '☀️', key: 'solarEfficiency' },
+        { icon: '⏳', key: 'solarLife' },
+        { icon: '🛡️', key: 'solarSafe' },
+        { icon: '₹', key: 'solarCost' },
+        { icon: '🏘️', key: 'solarSites' }
+      ]
     },
     {
-      eyebrow: 'Business ready',
-      title: 'A workplace that works better.',
-      description: 'Keep offices, facilities, and shared spaces safe, polished, and ready for business.',
-      icon: '🏢',
-      action: 'Explore office care'
-    },
-    {
-      eyebrow: 'Complete protection',
-      title: 'Prevent problems before they grow.',
-      description: 'Reliable pest control and maintenance support designed around your property.',
-      icon: '🛡️',
-      action: 'Request a consultation'
+      key: 'sofa',
+      image: 'assets/promos/sofa-carpet-cleaning.jpg',
+      features: [
+        { icon: '🧽', key: 'sofaDeep' },
+        { icon: '🎯', key: 'sofaStain' },
+        { icon: '🦠', key: 'sofaGerm' },
+        { icon: '🌿', key: 'sofaOdour' },
+        { icon: '💨', key: 'sofaDry' }
+      ]
     }
+  ];
+  assurances = ['assureTrained', 'assureEquipment', 'assureSafe', 'assureSatisfaction', 'assureCommercial'];
+  phoneNumbers = [
+    { label: '84606 57606', href: 'tel:+918460657606' },
+    { label: '99221 01262', href: 'tel:+919922101262' },
+    { label: '72648 84322', href: 'tel:+917264884322' }
   ];
   services: Service[] = [
     { id: 1, name: 'Home Housekeeping', description: 'Complete home cleaning service', category: 'Housekeeping', icon: 'home' },
@@ -50,7 +68,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     description: 'Professional housekeeping and maintenance services for homes, offices, and industrial facilities.',
     location: 'Sangli, Maharashtra',
     contactEmail: 'info@perfectmultiservices.com',
-    phone: '+91 XXXXXXXXXX'
+    phone: '+91 84606 57606'
   };
   loading = false;
   error: string | null = null;
@@ -59,7 +77,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.loadData();
-    this.carouselTimer = setInterval(() => this.nextSlide(), 6000);
   }
 
   ngAfterViewInit(): void {
@@ -78,6 +95,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -45px' });
+    this.observer = observer;
 
     this.host.nativeElement.querySelectorAll<HTMLElement>('[data-reveal]').forEach(element => {
       observer.observe(element);
@@ -85,8 +103,29 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.carouselTimer) {
-      clearInterval(this.carouselTimer);
+    this.observer?.disconnect();
+  }
+
+  points(key: string): string[] {
+    return this.i18n.t(key).split('|');
+  }
+
+  pauseCarousel(paused: boolean): void {
+    this.carouselPaused = paused;
+  }
+
+  onSwipeStart(event: PointerEvent): void {
+    this.swipeStartX = event.clientX;
+  }
+
+  onSwipeEnd(event: PointerEvent): void {
+    if (this.swipeStartX === null) {
+      return;
+    }
+    const distance = event.clientX - this.swipeStartX;
+    this.swipeStartX = null;
+    if (Math.abs(distance) > 50) {
+      distance < 0 ? this.nextSlide() : this.previousSlide();
     }
   }
 

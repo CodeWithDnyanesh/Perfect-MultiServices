@@ -339,7 +339,7 @@ app.MapGet("/api/company", () =>
         Description = "Professional housekeeping and maintenance services for homes, offices, and industrial facilities.",
         Location = "Sangli, Maharashtra",
         ContactEmail = "info@perfectmultiservices.com",
-        Phone = "+91 XXXXXXXXXX"
+        Phone = "+91 84606 57606"
     };
     return company;
 })

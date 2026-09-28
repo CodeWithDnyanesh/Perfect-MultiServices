@@ -58,29 +58,58 @@
       <div class="hero-visual"></div>
     </header>
 
-    <section class="spotlight-section" aria-label="Service highlights" data-reveal>
-      <div class="spotlight-copy">
-        <span class="subtitle">{{ i18n.t('difference') }}</span>
-        <h2>{{ i18n.t('servicePrecision') }}</h2>
-        <p>From the first hello to the final inspection, every detail is planned to make your day easier.</p>
-        <div class="spotlight-controls">
-          <button type="button" class="carousel-arrow" (click)="previousSlide()" aria-label="Previous highlight">←</button>
+    <section class="promo-section" aria-roledescription="carousel" [attr.aria-label]="i18n.t('promoHeading')" data-reveal>
+      <div class="promo-heading">
+        <div>
+          <span class="subtitle">{{ i18n.t('promoEyebrow') }}</span>
+          <h2>{{ i18n.t('promoHeading') }}</h2>
+        </div>
+        <p>{{ i18n.t('promoIntro') }}</p>
+      </div>
+
+      <div class="promo-carousel" [class.autoplay]="autoplay" [class.paused]="carouselPaused"
+        (mouseenter)="pauseCarousel(true)" (mouseleave)="pauseCarousel(false)"
+        (focusin)="pauseCarousel(true)" (focusout)="pauseCarousel(false)"
+        (keydown.arrowleft)="previousSlide()" (keydown.arrowright)="nextSlide()">
+        <div class="promo-viewport" (pointerdown)="onSwipeStart($event)" (pointerup)="onSwipeEnd($event)" (pointercancel)="onSwipeEnd($event)">
+          <div class="promo-track" [style.transform]="'translateX(-' + activeSlide * 100 + '%)'">
+            <article class="promo-slide" *ngFor="let slide of carouselSlides; let i = index"
+              [class.active]="activeSlide === i" role="group" aria-roledescription="slide"
+              [attr.aria-label]="(i + 1) + ' / ' + carouselSlides.length" [attr.aria-hidden]="activeSlide !== i"
+              [attr.inert]="activeSlide !== i ? '' : null">
+              <div class="promo-media">
+                <img class="promo-backdrop" [src]="slide.image" alt="" aria-hidden="true" />
+                <img class="promo-image" [src]="slide.image" [alt]="i18n.t(slide.key + 'Title')"
+                  [attr.loading]="i === 0 ? 'eager' : 'lazy'" draggable="false" />
+              </div>
+              <div class="promo-content">
+                <span class="promo-tag">{{ i18n.t(slide.key + 'Tag') }}</span>
+                <h3>{{ i18n.t(slide.key + 'Title') }}</h3>
+                <p>{{ i18n.t(slide.key + 'Text') }}</p>
+                <ul class="promo-points">
+                  <li *ngFor="let point of points(slide.key + 'Points')">{{ point }}</li>
+                </ul>
+                <div class="promo-actions">
+                  <button type="button" class="cta-button" (click)="router.navigate(['/contact'])">{{ i18n.t('bookSlot') }}</button>
+                  <a class="promo-call" [href]="phoneNumbers[1].href">📞 {{ phoneNumbers[1].label }}</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="promo-controls">
+          <button type="button" class="carousel-arrow" (click)="previousSlide()" [attr.aria-label]="i18n.t('previousSlide')">←</button>
           <div class="carousel-dots">
             <button *ngFor="let slide of carouselSlides; let i = index" type="button" class="carousel-dot"
-              [class.active]="activeSlide === i" (click)="goToSlide(i)" [attr.aria-label]="'Show highlight ' + (i + 1)"></button>
+              [class.active]="activeSlide === i" (click)="goToSlide(i)" [attr.aria-label]="i18n.t(slide.key + 'Tag')"
+              [attr.aria-current]="activeSlide === i">
+              <span class="dot-progress" *ngIf="activeSlide === i" (animationend)="nextSlide()"></span>
+            </button>
           </div>
-          <button type="button" class="carousel-arrow" (click)="nextSlide()" aria-label="Next highlight">→</button>
+          <span class="promo-counter">{{ (activeSlide + 1).toString().padStart(2, '0') }} / {{ carouselSlides.length.toString().padStart(2, '0') }}</span>
+          <button type="button" class="carousel-arrow" (click)="nextSlide()" [attr.aria-label]="i18n.t('nextSlide')">→</button>
         </div>
-      </div>
-      <div class="spotlight-carousel">
-        <article class="spotlight-slide" *ngFor="let slide of carouselSlides; let i = index"
-          [class.active]="activeSlide === i">
-          <div class="slide-icon">{{ slide.icon }}</div>
-          <span class="slide-eyebrow">{{ slide.eyebrow }}</span>
-          <h3>{{ slide.title }}</h3>
-          <p>{{ slide.description }}</p>
-          <button type="button" class="slide-link" (click)="router.navigate(['/contact'])">{{ slide.action }} <span>↗</span></button>
-        </article>
       </div>
     </section>
 
@@ -148,6 +177,49 @@
           <div class="learn-more">{{ i18n.t('learnMore') }} →</div>
         </div>
       </div>
+    </section>
+
+    <section class="special-section" data-reveal>
+      <div class="section-heading">
+        <span class="subtitle">{{ i18n.t('specialEyebrow') }}</span>
+        <h2>{{ i18n.t('specialHeading') }}</h2>
+      </div>
+      <div class="special-grid">
+        <article class="special-card" *ngFor="let service of specialisedServices">
+          <div class="special-media">
+            <img [src]="service.image" [alt]="i18n.t(service.key + 'Title')" loading="lazy" />
+          </div>
+          <div class="special-body">
+            <span class="promo-tag">{{ i18n.t(service.key + 'Tagline') }}</span>
+            <h3>{{ i18n.t(service.key + 'Title') }}</h3>
+            <p>{{ i18n.t(service.key + 'Text') }}</p>
+            <ul class="special-features">
+              <li *ngFor="let feature of service.features">
+                <span class="special-icon" aria-hidden="true">{{ feature.icon }}</span>
+                <div>
+                  <strong>{{ i18n.t(feature.key) }}</strong>
+                  <small>{{ i18n.t(feature.key + 'Text') }}</small>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </article>
+      </div>
+      <ul class="assurance-strip">
+        <li *ngFor="let item of assurances">✓ {{ i18n.t(item) }}</li>
+      </ul>
+    </section>
+
+    <section class="booking-strip" data-reveal>
+      <div class="booking-copy">
+        <span class="subtitle light">{{ i18n.t('callToday') }}</span>
+        <h2>{{ i18n.t('bookSlotNow') }}</h2>
+        <p>{{ i18n.t('oneCallTagline') }}</p>
+      </div>
+      <div class="booking-phones">
+        <a *ngFor="let phone of phoneNumbers" [href]="phone.href" class="booking-phone">📞 {{ phone.label }}</a>
+      </div>
+      <address class="booking-address">📍 {{ i18n.t('officeAddress') }}</address>
     </section>
 
     <section class="value-section" data-reveal>
@@ -228,6 +300,59 @@
           <p>Reliable support, transparent pricing, and a team that genuinely listens. They are now our go-to service partner.</p>
           <div class="testimonial-person"><span>NP</span><div><strong>Neha Patil</strong><small>Facility coordinator</small></div></div>
         </article>
+      </div>
+    </section>
+
+    <section class="coverage-section" data-reveal>
+      <div class="coverage-heading">
+        <span class="subtitle">Built for every space</span>
+        <h2>One dependable team for the places that matter most.</h2>
+        <p>From a quick home refresh to a complete facility care plan, we bring the same attention to detail, clear communication, and dependable standards to every visit.</p>
+      </div>
+      <div class="coverage-grid">
+        <article class="coverage-card">
+          <span class="coverage-icon">🏠</span>
+          <h3>Homes & apartments</h3>
+          <p>Regular housekeeping, deep cleaning, sanitization, and move-in or move-out support.</p>
+          <a routerLink="/services">Explore home care <span>→</span></a>
+        </article>
+        <article class="coverage-card coverage-card-accent">
+          <span class="coverage-icon">🏢</span>
+          <h3>Offices & retail</h3>
+          <p>Professional cleaning routines that keep teams productive and customers comfortable.</p>
+          <a routerLink="/services">Explore commercial care <span>→</span></a>
+        </article>
+        <article class="coverage-card">
+          <span class="coverage-icon">🏭</span>
+          <h3>Facilities & sites</h3>
+          <p>Flexible maintenance, pest control, and specialized cleaning for larger environments.</p>
+          <a routerLink="/contact">Plan facility support <span>→</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="faq-section" data-reveal>
+      <div class="section-heading center">
+        <span class="subtitle">Good to know</span>
+        <h2>Questions, answered clearly.</h2>
+      </div>
+      <div class="faq-grid">
+        <details class="faq-item">
+          <summary>Can I schedule a one-time service?</summary>
+          <p>Yes. We support one-time visits as well as weekly, monthly, and tailored recurring plans.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do you bring the cleaning materials?</summary>
+          <p>Our team can bring the required equipment and products. Tell us about any preferred or sensitive products when you request a quote.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I get a price for my property?</summary>
+          <p>Share your space, service needs, and preferred timing through our contact form. We will recommend the right plan and provide a clear estimate.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do you serve businesses and large facilities?</summary>
+          <p>Yes. We create flexible service schedules for offices, retail spaces, industrial facilities, and shared properties.</p>
+        </details>
       </div>
     </section>
 
