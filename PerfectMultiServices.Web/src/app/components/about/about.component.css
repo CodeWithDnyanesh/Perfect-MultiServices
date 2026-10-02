@@ -1,6 +1,6 @@
 .about-container {
   min-height: calc(100vh - 120px);
-  background: linear-gradient(135deg, #fdf2e7 0%, #e0e0e0 48%, #ec7b1b 100%);
+  background: linear-gradient(135deg, #ec7b1b 0%, #d0680f 100%);
   font-family: 'Valley Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding-top: 80px;
 }
@@ -11,7 +11,7 @@
   backdrop-filter: blur(10px);
   padding: 80px 20px;
   text-align: center;
-  color: #262626;
+  color: white;
 }
 
 .about-hero h1 {
@@ -84,7 +84,7 @@
 .stat-number {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #667eea;
+  color: #ec7b1b;
   margin-bottom: 10px;
 }
 
@@ -121,7 +121,7 @@
   text-align: center;
   padding: 30px;
   border-radius: 15px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #fdf7f1 0%, #fbe1c8 100%);
   transition: transform 0.3s;
 }
 
@@ -155,7 +155,7 @@
 
 .why-choose-section h2 {
   text-align: center;
-  color: #262626;
+  color: white;
   font-size: 2.2rem;
   margin-bottom: 40px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
@@ -227,7 +227,7 @@
 
 .cta-button {
   background: white;
-  color: #667eea;
+  color: #ec7b1b;
   padding: 15px 40px;
   border: none;
   border-radius: 30px;

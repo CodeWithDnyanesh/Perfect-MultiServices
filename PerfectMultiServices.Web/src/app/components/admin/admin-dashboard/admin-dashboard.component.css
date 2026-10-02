@@ -38,7 +38,7 @@
 }
 
 .stat-card.primary .stat-icon {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ec7b1b 0%, #d0680f 100%);
 }
 
 .stat-card.success .stat-icon {
@@ -147,7 +147,7 @@
 
 .bar {
   width: 40px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ec7b1b 0%, #d0680f 100%);
   border-radius: 8px 8px 0 0;
   transition: height 0.5s ease;
   min-height: 20px;
@@ -179,7 +179,7 @@
 }
 
 .view-all-btn {
-  background: #667eea;
+  background: #ec7b1b;
   color: white;
   border: none;
   padding: 8px 15px;
@@ -190,7 +190,7 @@
 }
 
 .view-all-btn:hover {
-  background: #764ba2;
+  background: #d0680f;
 }
 
 .bookings-table {
@@ -280,12 +280,12 @@
 }
 
 .action-btn.view {
-  background: #667eea;
+  background: #ec7b1b;
   color: white;
 }
 
 .action-btn.view:hover {
-  background: #764ba2;
+  background: #d0680f;
 }
 
 .action-btn.edit {
@@ -318,7 +318,7 @@
 }
 
 .action-card {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #fdf7f1 0%, #fbe1c8 100%);
   border: none;
   padding: 20px;
   border-radius: 10px;

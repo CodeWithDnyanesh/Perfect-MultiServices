@@ -66,7 +66,7 @@
 }
 
 .stat-card.revenue .stat-number {
-  color: #667eea;
+  color: #ec7b1b;
 }
 
 /* Filters Section */
@@ -93,7 +93,7 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #ec7b1b;
 }
 
 .filter-group {
@@ -147,7 +147,7 @@
 
 .customer-id {
   font-weight: 600;
-  color: #667eea;
+  color: #ec7b1b;
   font-size: 0.9rem;
 }
 
@@ -241,11 +241,11 @@
 }
 
 .action-btn.view {
-  background: #667eea;
+  background: #ec7b1b;
 }
 
 .action-btn.view:hover {
-  background: #764ba2;
+  background: #d0680f;
 }
 
 .action-btn.edit {
@@ -320,7 +320,7 @@
 
 /* Customer Profile */
 .customer-profile {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #fdf7f1 0%, #fbe1c8 100%);
   padding: 25px;
   border-radius: 12px;
   margin-bottom: 25px;

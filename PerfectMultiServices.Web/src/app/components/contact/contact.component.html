@@ -113,7 +113,7 @@
         <div class="method-icon">📧</div>
         <div class="method-details">
           <h4>{{ i18n.t('email') }}</h4>
-          <p>{{ companyInfo?.contactEmail || 'info@perfectmultiservices.com' }}</p>
+          <p><a [href]="'mailto:' + (companyInfo?.contactEmail || 'perfectmultiservicess@gmail.com')">{{ companyInfo?.contactEmail || 'perfectmultiservicess@gmail.com' }}</a></p>
         </div>
       </div>
       <div class="contact-method">

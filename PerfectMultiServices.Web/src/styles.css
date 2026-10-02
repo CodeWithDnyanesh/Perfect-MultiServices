@@ -7,9 +7,11 @@ html, body, button, input, textarea, select {
 }
 
 /* Marathi: Mukta is a professional Devanagari face; component styles hard-code
-   the Latin font, so it is applied to every element under the Marathi locale. */
+   the Latin font, so it is applied to every element under the Marathi locale.
+   The Latin faces come first so English text (brand name, numbers) keeps the
+   site font, and Devanagari characters fall back to Mukta. */
 html:lang(mr) {
-  --app-font-family: 'Mukta', 'Noto Sans Devanagari', 'Nirmala UI', 'Mangal', sans-serif;
+  --app-font-family: 'Valley Sans', 'Segoe UI', Tahoma, 'Mukta', 'Noto Sans Devanagari', 'Nirmala UI', 'Mangal', sans-serif;
 }
 
 html:lang(mr) body,
@@ -22,8 +24,14 @@ html:lang(mr) body {
   line-height: 1.7;
 }
 
-html:lang(mr) :is(h1, h2, h3, .company-name) {
+html:lang(mr) :is(h1, h2, h3) {
   line-height: 1.25 !important;
+}
+
+/* The company name is always English, so keep its tight headline setting. */
+html:lang(mr) body .company-name {
+  line-height: 0.98 !important;
+  letter-spacing: -0.07em !important;
 }
 
 body {
@@ -42,10 +50,6 @@ body {
   --theme-orange: #ec7b1b;
   --theme-orange-dark: #d0680f;
   --theme-orange-deep: #303030;
-}
-
-.service-detail-container {
-  background: linear-gradient(135deg, #fdf2e7 0%, #e0e0e0 52%, #ec7b1b 100%) !important;
 }
 
 .service-detail-container .back-button,
@@ -75,6 +79,19 @@ body {
 .contact-container a,
 .service-detail-container a {
   color: #d0680f;
+}
+
+/* Call-to-action boxes sit directly on the orange page background. */
+.service-detail-container .service-cta h2,
+.about-container .cta-section h2 {
+  color: #fff;
+}
+
+.service-detail-container .service-cta .cta-button,
+.about-container .cta-section .cta-button {
+  background: #fff !important;
+  color: #d0680f;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, .12);
 }
 
 .admin-layout .nav-item.active,

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -13,6 +13,8 @@ import { LanguageService } from '../../services/language.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
+  // Zoneless app: HTTP callbacks do not trigger rendering on their own.
+  private readonly cdr = inject(ChangeDetectorRef);
   activeSlide = 0;
   carouselPaused = false;
   readonly autoplay = !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
@@ -29,7 +31,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
   specialisedServices = [
     {
       key: 'solar',
-      image: 'assets/promos/solar-panel-cleaning.jpg',
+      image: 'assets/promos/solar-panel-cleaning-photo.jpg',
       features: [
         { icon: '☀️', key: 'solarEfficiency' },
         { icon: '⏳', key: 'solarLife' },
@@ -40,7 +42,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     },
     {
       key: 'sofa',
-      image: 'assets/promos/sofa-carpet-cleaning.jpg',
+      image: 'assets/promos/sofa-carpet-cleaning-photo.jpg',
       features: [
         { icon: '🧽', key: 'sofaDeep' },
         { icon: '🎯', key: 'sofaStain' },
@@ -48,6 +50,32 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
         { icon: '🌿', key: 'sofaOdour' },
         { icon: '💨', key: 'sofaDry' }
       ]
+    }
+  ];
+  experienceCards = [
+    {
+      image: 'assets/promos/flexible-scheduling.jpg',
+      title: 'Flexible scheduling',
+      text: 'Book a cleaning slot at your convenience. We work around your time, so your space is always clean and ready.',
+      points: ['Choose your preferred time', 'Quick & easy booking', 'Cleaning at your convenience'],
+      action: 'Plan your visit',
+      link: '/contact'
+    },
+    {
+      image: 'assets/promos/detail-led-quality.jpg',
+      title: 'Detail-led quality',
+      text: 'We focus on every detail, from visible dirt to hidden spots, so your space looks, feels and stays cleaner for longer.',
+      points: ['Deep cleaning', 'Attention to detail', 'Consistent high quality'],
+      action: 'Our quality promise',
+      link: '/about'
+    },
+    {
+      image: 'assets/promos/people-you-can-trust.jpg',
+      title: 'People you can trust',
+      text: 'Reliable, verified and professional service to keep your home and workplace safe, clean and worry-free.',
+      points: ['Verified professionals', 'Safe & reliable', 'Respectful & friendly'],
+      action: 'Talk to our team',
+      link: '/contact'
     }
   ];
   assurances = ['assureTrained', 'assureEquipment', 'assureSafe', 'assureSatisfaction', 'assureCommercial'];
@@ -67,7 +95,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     tagline: 'One Company. Multiple Solutions.',
     description: 'Professional housekeeping and maintenance services for homes, offices, and industrial facilities.',
     location: 'Sangli, Maharashtra',
-    contactEmail: 'info@perfectmultiservices.com',
+    contactEmail: 'perfectmultiservicess@gmail.com',
     phone: '+91 84606 57606'
   };
   loading = false;
@@ -148,14 +176,18 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
       companyInfo: this.apiService.getCompanyInfo()
     }).subscribe({
       next: ({ services, companyInfo }) => {
+        this.cdr.markForCheck();
         this.services = services;
         this.companyInfo = companyInfo;
         this.loading = false;
       },
       error: (err) => {
-        this.error = 'Failed to load homepage data';
+        // The page ships with built-in services and company details, so an
+        // unreachable API (e.g. while the server is waking up) keeps showing
+        // those instead of replacing the whole page with an error.
+        this.cdr.markForCheck();
         this.loading = false;
-        console.error('Error loading homepage data:', err);
+        console.warn('Homepage API unavailable; showing built-in content.', err);
       }
     });
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService, Service } from '../../services/api.service';
@@ -11,6 +11,8 @@ import { ApiService, Service } from '../../services/api.service';
   styleUrls: ['./service-detail.component.css']
 })
 export class ServiceDetailComponent implements OnInit {
+  // Zoneless app: HTTP callbacks do not trigger rendering on their own.
+  private readonly cdr = inject(ChangeDetectorRef);
   service: Service | null = null;
   loading = true;
   error: string | null = null;
@@ -99,6 +101,7 @@ export class ServiceDetailComponent implements OnInit {
 
     this.apiService.getServices().subscribe({
       next: (services) => {
+        this.cdr.markForCheck();
         this.service = services.find(s => 
           s.name.toLowerCase() === serviceName.toLowerCase().replace(/-/g, ' ')
         ) || null;
@@ -110,6 +113,7 @@ export class ServiceDetailComponent implements OnInit {
         this.loading = false;
       },
       error: (err) => {
+        this.cdr.markForCheck();
         this.error = 'Failed to load service details';
         this.loading = false;
         console.error('Error loading service:', err);

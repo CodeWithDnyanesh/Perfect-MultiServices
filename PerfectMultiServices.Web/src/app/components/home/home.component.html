@@ -138,26 +138,19 @@
         <h2>More than a service. A smoother way to care for your space.</h2>
       </div>
       <div class="experience-grid">
-        <article class="experience-card experience-card-primary">
-          <span class="experience-number">01</span>
-          <span class="experience-icon">📅</span>
-          <h3>Flexible scheduling</h3>
-          <p>Choose a time that fits your routine, with clear updates from booking to completion.</p>
-          <a routerLink="/contact">Plan your visit →</a>
-        </article>
-        <article class="experience-card">
-          <span class="experience-number">02</span>
-          <span class="experience-icon">✨</span>
-          <h3>Detail-led quality</h3>
-          <p>Our checklists and trained teams keep the little details from being overlooked.</p>
-          <a routerLink="/about">Our quality promise →</a>
-        </article>
-        <article class="experience-card">
-          <span class="experience-number">03</span>
-          <span class="experience-icon">🤝</span>
-          <h3>People you can trust</h3>
-          <p>Professional, respectful staff who treat your home or workplace with care.</p>
-          <a routerLink="/contact">Talk to our team →</a>
+        <article class="experience-card" *ngFor="let card of experienceCards; let i = index" [class.experience-card-primary]="i === 0">
+          <div class="experience-media">
+            <img [src]="card.image" [alt]="card.title" loading="lazy" />
+          </div>
+          <div class="experience-body">
+            <span class="experience-number">{{ (i + 1).toString().padStart(2, '0') }}</span>
+            <h3>{{ card.title }}</h3>
+            <p>{{ card.text }}</p>
+            <ul class="experience-points">
+              <li *ngFor="let point of card.points">{{ point }}</li>
+            </ul>
+            <a [href]="card.link" (click)="$event.preventDefault(); router.navigate([card.link])">{{ card.action }} →</a>
+          </div>
         </article>
       </div>
     </section>
@@ -219,7 +212,10 @@
       <div class="booking-phones">
         <a *ngFor="let phone of phoneNumbers" [href]="phone.href" class="booking-phone">📞 {{ phone.label }}</a>
       </div>
-      <address class="booking-address">📍 {{ i18n.t('officeAddress') }}</address>
+      <address class="booking-address">
+        <span>📍 {{ i18n.t('officeAddress') }}</span>
+        <a [href]="'mailto:' + companyInfo.contactEmail">📧 {{ companyInfo.contactEmail }}</a>
+      </address>
     </section>
 
     <section class="value-section" data-reveal>
@@ -366,7 +362,7 @@
         <div class="contact-info">
           <div class="contact-item">
             <span class="icon">📧</span>
-            <span>{{ companyInfo.contactEmail }}</span>
+            <a class="contact-link" [href]="'mailto:' + companyInfo.contactEmail">{{ companyInfo.contactEmail }}</a>
           </div>
           <div class="contact-item">
             <span class="icon">📞</span>

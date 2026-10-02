@@ -338,7 +338,7 @@ app.MapGet("/api/company", () =>
         Tagline = "One Company. Multiple Solutions.",
         Description = "Professional housekeeping and maintenance services for homes, offices, and industrial facilities.",
         Location = "Sangli, Maharashtra",
-        ContactEmail = "info@perfectmultiservices.com",
+        ContactEmail = "perfectmultiservicess@gmail.com",
         Phone = "+91 84606 57606"
     };
     return company;

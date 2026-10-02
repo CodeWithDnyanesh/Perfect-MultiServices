@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../../services/api.service';
@@ -25,6 +25,8 @@ interface Booking {
   styleUrls: ['./admin-bookings.component.css']
 })
 export class AdminBookingsComponent implements OnInit {
+  // Zoneless app: HTTP callbacks do not trigger rendering on their own.
+  private readonly cdr = inject(ChangeDetectorRef);
   bookings: Booking[] = [];
   filteredBookings: Booking[] = [];
   searchQuery = '';
@@ -45,10 +47,12 @@ export class AdminBookingsComponent implements OnInit {
   loadBookings(): void {
     this.apiService.getBookings().subscribe({
       next: (bookings) => {
+        this.cdr.markForCheck();
         this.bookings = bookings;
         this.filterBookings();
       },
       error: (err) => {
+        this.cdr.markForCheck();
         console.error('Error loading bookings:', err);
       }
     });

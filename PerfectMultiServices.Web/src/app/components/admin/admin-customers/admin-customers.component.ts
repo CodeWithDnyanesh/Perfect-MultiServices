@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService, Customer } from '../../../services/api.service';
@@ -11,6 +11,8 @@ import { ApiService, Customer } from '../../../services/api.service';
   styleUrls: ['./admin-customers.component.css']
 })
 export class AdminCustomersComponent implements OnInit {
+  // Zoneless app: HTTP callbacks do not trigger rendering on their own.
+  private readonly cdr = inject(ChangeDetectorRef);
   customers: Customer[] = [];
   filteredCustomers: Customer[] = [];
   searchQuery = '';
@@ -29,10 +31,12 @@ export class AdminCustomersComponent implements OnInit {
   loadCustomers(): void {
     this.apiService.getCustomers().subscribe({
       next: (customers) => {
+        this.cdr.markForCheck();
         this.customers = customers;
         this.filterCustomers();
       },
       error: (err) => {
+        this.cdr.markForCheck();
         console.error('Error loading customers:', err);
       }
     });

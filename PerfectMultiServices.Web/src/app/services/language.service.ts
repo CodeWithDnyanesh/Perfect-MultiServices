@@ -279,9 +279,21 @@ const translations: Record<Language, Record<string, string>> = {
   }
 };
 
+// Marathi is the default for first-time visitors; a saved choice always wins.
+const DEFAULT_LANGUAGE: Language = 'mr';
+
+function savedLanguage(): Language {
+  try {
+    const saved = localStorage.getItem('pms-language');
+    return saved === 'en' || saved === 'mr' || saved === 'hi' ? saved : DEFAULT_LANGUAGE;
+  } catch {
+    return DEFAULT_LANGUAGE;
+  }
+}
+
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
-  readonly language = signal<Language>((localStorage.getItem('pms-language') as Language) || 'en');
+  readonly language = signal<Language>(savedLanguage());
 
   constructor() {
     this.applyDocumentLanguage(this.language());

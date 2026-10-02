@@ -1,6 +1,6 @@
 .service-detail-container {
   min-height: calc(100vh - 120px);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ec7b1b 0%, #d0680f 100%);
   font-family: 'Valley Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 40px 20px;
   padding-top: 120px;
@@ -46,7 +46,7 @@
   margin-top: 20px;
   padding: 12px 24px;
   background: white;
-  color: #667eea;
+  color: #ec7b1b;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -78,7 +78,7 @@
 .back-link {
   background: none;
   border: none;
-  color: #667eea;
+  color: #ec7b1b;
   font-size: 1rem;
   cursor: pointer;
   margin-bottom: 20px;
@@ -87,7 +87,7 @@
 }
 
 .back-link:hover {
-  color: #764ba2;
+  color: #d0680f;
 }
 
 .service-icon-large {
@@ -103,7 +103,7 @@
 
 .service-category {
   display: inline-block;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ec7b1b 0%, #d0680f 100%);
   color: white;
   padding: 8px 20px;
   border-radius: 20px;
@@ -163,7 +163,7 @@
 }
 
 .feature-bullet {
-  color: #667eea;
+  color: #ec7b1b;
   font-weight: bold;
   font-size: 1.2rem;
   flex-shrink: 0;
@@ -185,7 +185,7 @@
 }
 
 .pricing-card {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #fdf7f1 0%, #fbe1c8 100%);
   padding: 25px;
   border-radius: 10px;
   text-align: center;
@@ -194,7 +194,7 @@
 .pricing-amount {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #667eea;
+  color: #ec7b1b;
   margin-bottom: 15px;
 }
 
@@ -228,7 +228,7 @@
 
 .cta-button {
   background: white;
-  color: #667eea;
+  color: #ec7b1b;
   padding: 15px 40px;
   border: none;
   border-radius: 30px;

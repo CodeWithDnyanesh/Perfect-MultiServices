@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService, DashboardStats } from '../../../services/api.service';
 
@@ -10,6 +10,8 @@ import { ApiService, DashboardStats } from '../../../services/api.service';
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
+  // Zoneless app: HTTP callbacks do not trigger rendering on their own.
+  private readonly cdr = inject(ChangeDetectorRef);
   // Statistics
   stats: DashboardStats = {
     totalCustomers: 0,
@@ -89,9 +91,11 @@ export class AdminDashboardComponent implements OnInit {
   loadDashboard(): void {
     this.apiService.getDashboardStats().subscribe({
       next: (stats) => {
+        this.cdr.markForCheck();
         this.stats = { ...this.stats, ...stats };
       },
       error: (err) => {
+        this.cdr.markForCheck();
         console.error('Error loading dashboard stats:', err);
       }
     });

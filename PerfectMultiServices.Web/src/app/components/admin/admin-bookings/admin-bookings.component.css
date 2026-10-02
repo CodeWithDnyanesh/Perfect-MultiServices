@@ -83,7 +83,7 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #ec7b1b;
 }
 
 .filter-group {
@@ -138,7 +138,7 @@
 
 .booking-id {
   font-weight: 600;
-  color: #667eea;
+  color: #ec7b1b;
   font-size: 0.9rem;
 }
 
@@ -262,11 +262,11 @@
 }
 
 .action-btn.view {
-  background: #667eea;
+  background: #ec7b1b;
 }
 
 .action-btn.view:hover {
-  background: #764ba2;
+  background: #d0680f;
 }
 
 .action-btn.edit {
