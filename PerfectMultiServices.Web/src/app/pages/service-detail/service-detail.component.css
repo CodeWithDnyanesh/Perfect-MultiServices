@@ -1,0 +1,68 @@
+:host { display: block; }
+
+.hero-highlights { display: flex; flex-wrap: wrap; gap: 10px 18px; margin: 24px 0 0; padding: 0; list-style: none; }
+.hero-highlights li { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: .95rem; }
+.hero-highlights app-icon { color: var(--c-orange); font-size: 1.2rem; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+.hero-media {
+  position: relative; aspect-ratio: 4 / 3; overflow: visible; border: 6px solid #fff; border-radius: 28px 28px 28px 110px;
+  box-shadow: 0 30px 60px rgba(37, 37, 37, .16);
+}
+.hero-media img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 22px 22px 22px 104px; }
+.hero-media.media-placeholder { border-radius: 28px 28px 28px 110px; }
+.hero-media.media-placeholder app-icon { font-size: 5rem; }
+.hero-media-badge {
+  position: absolute; right: -14px; bottom: -14px; display: grid; place-items: center; width: 72px; height: 72px;
+  border: 5px solid #fff; border-radius: 22px; background: var(--c-orange); color: #fff; font-size: 2rem; box-shadow: var(--shadow-lg);
+}
+.hero-media-badge app-icon { font-size: 2rem; opacity: 1; }
+
+.detail-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; align-items: start; gap: clamp(32px, 5vw, 64px); padding-block: clamp(48px, 6vw, 80px); }
+
+.block + .block { margin-top: clamp(40px, 5vw, 56px); }
+.block h2 { margin-bottom: 18px; font-size: clamp(1.5rem, 2.4vw, 1.9rem); }
+.block .lead { margin: 0 0 14px; }
+
+.included { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; }
+.included li { padding: 14px 16px; border: 1px solid var(--c-line); border-radius: 14px; background: #fff; font-weight: 600; }
+
+.benefits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.benefit { padding: 22px; border: 1px solid var(--c-line); border-radius: 18px; background: #fff; }
+.benefit .badge-icon { margin-bottom: 14px; }
+.benefit h3 { margin-bottom: 6px; }
+.benefit p { margin: 0; color: var(--c-text); font-size: .93rem; line-height: 1.6; }
+
+.process { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.process li { position: relative; display: flex; gap: 18px; padding-bottom: 24px; }
+.process li:not(:last-child)::before { content: ''; position: absolute; left: 21px; top: 46px; bottom: 4px; border-left: 2px dashed rgba(255, 121, 0, .45); }
+.process-num { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--c-orange); color: #fff; font-weight: 800; }
+.process h3 { margin: 8px 0 4px; }
+.process p { margin: 0; color: var(--c-text); line-height: 1.6; }
+
+.detail-side { position: sticky; top: calc(var(--header-h) + 20px); display: grid; gap: 20px; }
+.side-card { padding: 24px; border: 1px solid var(--c-line); border-radius: 22px; background: #fff; }
+.side-card h2 { margin: 0 0 14px; font-size: 1.15rem; }
+.side-quote { border: 0; background: var(--c-ink); color: #fff; box-shadow: var(--shadow-lg); }
+.side-quote h2 { color: #fff; font-size: 1.35rem; }
+.side-quote p { margin: 0 0 20px; color: #c9c6c0; line-height: 1.6; }
+.side-phone { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; color: #fff; font-weight: 700; text-decoration: none; }
+.side-phone:hover { color: var(--c-orange); }
+.side-links { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.side-links a { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 10px; color: var(--c-ink); font-size: .9rem; font-weight: 600; text-decoration: none; }
+.side-links a:hover { background: var(--c-orange-soft); color: var(--c-orange-dark); }
+.side-links app-icon { color: var(--c-orange); font-size: 1.1rem; }
+
+.related { padding-top: 0; }
+.related-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+
+@media (max-width: 1000px) {
+  .detail-grid { grid-template-columns: minmax(0, 1fr); }
+  .detail-side { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .related-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .included, .benefits, .detail-side, .related-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero-actions .btn { flex: 1 1 100%; }
+  .hero-media-badge { right: 8px; bottom: -18px; width: 60px; height: 60px; }
+}

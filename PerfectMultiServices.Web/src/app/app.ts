@@ -1,4 +1,6 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, inject } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
+import { SeoService } from './services/seo.service';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -10,6 +12,12 @@ import { FooterComponent } from './components/footer/footer.component';
   templateUrl: './app.html'
 })
 export class App {
+  constructor() {
+    inject(SeoService).init();
+    // Anchor links (e.g. /industries#hospitals-healthcare) land below the sticky header.
+    inject(ViewportScroller).setOffset(() => [0, (document.querySelector('app-navbar')?.getBoundingClientRect().height ?? 76) + 20]);
+  }
+
   @ViewChild('cursorDot') private cursorDot?: ElementRef<HTMLElement>;
   @ViewChild('cursorRing') private cursorRing?: ElementRef<HTMLElement>;
 

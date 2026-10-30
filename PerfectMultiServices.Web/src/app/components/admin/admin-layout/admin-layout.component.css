@@ -87,9 +87,9 @@
 }
 
 .nav-item.active {
-  background: rgba(236, 123, 27, 0.2);
+  background: rgba(255, 121, 0, 0.2);
   color: white;
-  border-left-color: #ec7b1b;
+  border-left-color: #ff7900;
 }
 
 .nav-icon {
@@ -251,3 +251,4 @@
     padding: 20px 15px;
   }
 }
+.main-content { min-width: 0; }

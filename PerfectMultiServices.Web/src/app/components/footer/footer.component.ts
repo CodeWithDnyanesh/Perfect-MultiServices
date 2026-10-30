@@ -1,33 +1,30 @@
-import { AfterViewInit, Component, ElementRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LanguageService } from '../../services/language.service';
+import { ServiceCatalog } from '../../services/service-catalog.service';
+import { IconComponent } from '../../shared/icon.component';
+import { COMPANY_CONTACT } from '../../content/site-content';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [RouterLink, IconComponent],
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css']
 })
-export class FooterComponent implements AfterViewInit {
-  currentYear: number = new Date().getFullYear();
+export class FooterComponent {
+  readonly i18n = inject(LanguageService);
+  readonly catalog = inject(ServiceCatalog);
 
-  constructor(private host: ElementRef<HTMLElement>, public i18n: LanguageService) {}
-
-  ngAfterViewInit(): void {
-    const footer = this.host.nativeElement.querySelector<HTMLElement>('.footer');
-    if (!footer || !('IntersectionObserver' in window)) {
-      footer?.classList.add('scroll-visible');
-      return;
-    }
-
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        footer.classList.add('scroll-visible');
-        observer.disconnect();
-      }
-    }, { threshold: 0.08 });
-    observer.observe(footer);
-  }
+  readonly currentYear = new Date().getFullYear();
+  readonly contact = COMPANY_CONTACT;
+  readonly quickLinks = [
+    { url: '/', label: 'navHome' },
+    { url: '/about', label: 'navAbout' },
+    { url: '/services', label: 'navServicesMenu' },
+    { url: '/industries', label: 'navIndustries' },
+    { url: '/why-choose-us', label: 'navWhy' },
+    { url: '/contact', label: 'navContact' },
+    { url: '/get-a-quote', label: 'navQuoteShort' }
+  ];
 }

@@ -1,17 +1,43 @@
 :root {
-  --app-font-family: 'Valley Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --app-font-family: 'Plus Jakarta Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  /* Brand palette */
+  --c-orange: #ff7900;
+  --c-orange-dark: #e86b00;
+  --c-orange-soft: #fff1e4;
+  --c-ink: #252525;
+  --c-text: #555555;
+  --c-grey: #777777;
+  --c-bg: #f7f7f5;
+  --c-white: #ffffff;
+  --c-line: #ebe8e2;
+  --c-line-strong: #ddd8cf;
+
+  /* Layout and depth */
+  --container: 1240px;
+  --gutter: clamp(16px, 4vw, 32px);
+  --header-h: 76px;
+  --shadow-sm: 0 4px 14px rgba(37, 37, 37, .05);
+  --shadow-lg: 0 22px 48px rgba(37, 37, 37, .12);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
 }
 
 html, body, button, input, textarea, select {
   font-family: var(--app-font-family);
 }
 
-/* Marathi: Mukta is a professional Devanagari face; component styles hard-code
-   the Latin font, so it is applied to every element under the Marathi locale.
-   The Latin faces come first so English text (brand name, numbers) keeps the
-   site font, and Devanagari characters fall back to Mukta. */
+/* Marathi: the Latin faces come first so English text (brand name, numbers)
+   keeps the site font, and Devanagari characters fall back to Mukta. */
 html:lang(mr) {
-  --app-font-family: 'Valley Sans', 'Segoe UI', Tahoma, 'Mukta', 'Noto Sans Devanagari', 'Nirmala UI', 'Mangal', sans-serif;
+  --app-font-family: 'Plus Jakarta Sans', 'Segoe UI', Tahoma, 'Mukta', 'Noto Sans Devanagari', 'Nirmala UI', 'Mangal', sans-serif;
 }
 
 html:lang(mr) body,
@@ -28,91 +54,151 @@ html:lang(mr) :is(h1, h2, h3) {
   line-height: 1.25 !important;
 }
 
-/* The company name is always English, so keep its tight headline setting. */
-html:lang(mr) body .company-name {
-  line-height: 0.98 !important;
-  letter-spacing: -0.07em !important;
-}
-
 body {
   margin: 0;
   overflow-x: hidden;
   font-family: var(--app-font-family);
   line-height: 1.6;
-  color: #333;
-  background: #f5f5f5;
+  color: var(--c-ink);
+  background: var(--c-bg);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Keep the shared theme warm and consistent across legacy page styles. */
-.service-detail-container,
-.about-container,
-.contact-container {
-  --theme-orange: #ec7b1b;
-  --theme-orange-dark: #d0680f;
-  --theme-orange-deep: #303030;
+/* ============ Design system (shared by every public page) ============ */
+
+.container { width: min(100% - 2 * var(--gutter), var(--container)); margin-inline: auto; }
+.section { padding-block: clamp(64px, 8vw, 112px); }
+.section-white { background: var(--c-white); }
+.section-tight { padding-block: clamp(48px, 6vw, 80px); }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px; margin: 0 0 14px;
+  color: var(--c-orange-dark); font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+}
+.eyebrow::before { content: ''; width: 28px; height: 2px; border-radius: 2px; background: var(--c-orange); }
+
+.page h1, .page h2, .page h3 { color: var(--c-ink); font-weight: 800; letter-spacing: -.02em; }
+.page h2 { margin: 0; font-size: clamp(1.9rem, 3.4vw, 2.75rem); line-height: 1.15; }
+.page h3 { margin: 0; font-size: 1.12rem; line-height: 1.35; letter-spacing: -.01em; }
+
+.section-head { max-width: 720px; margin-bottom: clamp(32px, 4vw, 52px); }
+.section-head > p:last-child:not(.eyebrow) { margin: 14px 0 0; color: var(--c-text); font-size: 1.05rem; line-height: 1.7; }
+.section-head-center { margin-inline: auto; text-align: center; }
+.section-head-center .eyebrow::before { display: none; }
+.section-head-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px 40px; max-width: none; }
+.section-head-row > div { max-width: 720px; }
+.lead { color: var(--c-text); font-size: 1.05rem; line-height: 1.75; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 0 24px;
+  border: 1.5px solid transparent; border-radius: 999px; font: inherit; font-size: .95rem; font-weight: 700;
+  text-decoration: none; cursor: pointer; white-space: nowrap;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:focus-visible, .link-arrow:focus-visible { outline: 3px solid rgba(255, 121, 0, .35); outline-offset: 3px; }
+.btn-primary { background: var(--c-orange); color: #fff; box-shadow: 0 10px 24px rgba(255, 121, 0, .28); }
+.btn-primary:hover { background: var(--c-orange-dark); box-shadow: 0 14px 28px rgba(255, 121, 0, .32); }
+.btn-primary:disabled { opacity: .65; cursor: wait; transform: none; }
+.btn-outline { background: var(--c-white); color: var(--c-ink); border-color: var(--c-line-strong); }
+.btn-outline:hover { border-color: var(--c-orange); color: var(--c-orange-dark); }
+.btn-light { background: #fff; color: var(--c-orange-dark); }
+.btn-ghost-light { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .7); }
+.btn-ghost-light:hover { background: rgba(255, 255, 255, .12); border-color: #fff; }
+.btn-whatsapp { background: #1fa855; color: #fff; }
+.btn-whatsapp:hover { background: #178c46; }
+.btn-block { width: 100%; }
+.btn app-icon, .link-arrow app-icon { font-size: 1.1em; }
+
+.badge-icon {
+  display: inline-grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 12px;
+  background: var(--c-orange-soft); color: var(--c-orange-dark); font-size: 1.3rem;
 }
 
-.service-detail-container .back-button,
-.service-detail-container .service-header,
-.service-detail-container .service-features,
-.service-detail-container .pricing-card,
-.contact-container .close-button {
-  border-color: #e0e0e0;
+.media { position: relative; overflow: hidden; background: var(--c-orange-soft); }
+.media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.media-placeholder {
+  display: grid; place-items: center; color: var(--c-orange);
+  background:
+    radial-gradient(circle at 85% 15%, rgba(255, 121, 0, .14) 0 22%, transparent 23%),
+    linear-gradient(135deg, #fff6ee, #ffe9d6);
+}
+.media-placeholder app-icon { font-size: 3rem; opacity: .9; }
+
+.link-arrow {
+  display: inline-flex; align-items: center; gap: 6px; padding: 0; border: 0; background: none;
+  color: var(--c-orange-dark); font: inherit; font-size: .92rem; font-weight: 700; text-decoration: none; cursor: pointer;
+}
+.link-arrow app-icon { transition: transform .2s ease; }
+.link-arrow:hover app-icon { transform: translateX(4px); }
+
+.check-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.check-list li { display: flex; gap: 12px; align-items: flex-start; line-height: 1.55; }
+.check-list app-icon { flex: none; margin-top: 2px; padding: 3px; border-radius: 50%; background: var(--c-orange); color: #fff; font-size: 1.15rem; }
+
+.chip-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.chip-list li { padding: 8px 14px; border: 1px solid var(--c-line); border-radius: 999px; background: #fff; font-size: .88rem; font-weight: 600; }
+
+/* Form fields */
+.field { display: grid; gap: 8px; }
+.field label { font-size: .88rem; font-weight: 700; }
+.field label span { color: var(--c-orange-dark); }
+.field input, .field select, .field textarea {
+  width: 100%; padding: 13px 15px; border: 1.5px solid var(--c-line-strong); border-radius: 12px;
+  background: var(--c-bg); color: var(--c-ink); font: inherit; font-size: .95rem;
+  transition: border-color .2s, box-shadow .2s, background-color .2s;
+}
+.field textarea { resize: vertical; min-height: 120px; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--c-orange); background: #fff; box-shadow: 0 0 0 4px rgba(255, 121, 0, .14); }
+
+/* Reveal on scroll (the class is added by RevealDirective, so content stays visible without JS) */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* FAQ accordion */
+.faq { border: 1px solid var(--c-line); border-radius: 16px; background: #fff; }
+.faq + .faq { margin-top: 12px; }
+.faq summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 20px;
+  font-weight: 700; cursor: pointer; list-style: none;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: '+'; flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--c-orange-soft); color: var(--c-orange-dark); font-size: 1.2rem; transition: transform .2s ease; }
+.faq[open] summary::after { transform: rotate(45deg); }
+.faq summary:focus-visible { outline: 3px solid rgba(255, 121, 0, .35); outline-offset: 2px; border-radius: 16px; }
+.faq p { margin: 0; padding: 0 20px 20px; color: var(--c-text); line-height: 1.7; }
+
+@media (max-width: 600px) {
+  .section-head-row { align-items: flex-start; }
 }
 
-.service-detail-container .back-button,
-.service-detail-container .back-link,
-.service-detail-container .service-header h1,
-.service-detail-container .service-content h2,
-.service-detail-container .service-content h3,
-.contact-container .close-button {
-  color: #d0680f;
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .btn, .media img, .link-arrow app-icon { transition: none; }
 }
 
-.service-detail-container .cta-button,
-.contact-container .submit-button,
-.contact-container .success-message {
-  background: linear-gradient(135deg, #ec7b1b, #d0680f) !important;
-}
-
-.about-container a,
-.contact-container a,
-.service-detail-container a {
-  color: #d0680f;
-}
-
-/* Call-to-action boxes sit directly on the orange page background. */
-.service-detail-container .service-cta h2,
-.about-container .cta-section h2 {
-  color: #fff;
-}
-
-.service-detail-container .service-cta .cta-button,
-.about-container .cta-section .cta-button {
-  background: #fff !important;
-  color: #d0680f;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, .12);
-}
+/* ============ Admin panel theme ============ */
 
 .admin-layout .nav-item.active,
 .admin-layout .nav-item:hover,
 .admin-layout .logout-btn:hover,
 .admin-layout .sidebar {
-  background: linear-gradient(160deg, #303030, #d0680f) !important;
+  background: linear-gradient(160deg, #252525, #e86b00) !important;
 }
 
 .admin-services .add-btn,
 .admin-services .status-active,
 .admin-services button[type='submit'] {
-  background: linear-gradient(135deg, #ec7b1b, #d0680f) !important;
+  background: linear-gradient(135deg, #ff7900, #e86b00) !important;
 }
 
 .add-btn,
 .action-btn.view,
 .admin-layout .nav-item.active,
 .admin-layout .nav-item:hover {
-  background: linear-gradient(135deg, #ec7b1b, #d0680f) !important;
-  box-shadow: 0 8px 18px rgba(236,123,27, .2);
+  background: linear-gradient(135deg, #ff7900, #e86b00) !important;
+  box-shadow: 0 8px 18px rgba(255, 121, 0, .2);
 }
 
 .stat-card.primary .stat-icon,
@@ -121,7 +207,7 @@ body {
 .stat-card.info .stat-icon,
 .dashboard-container .action-card.primary,
 .dashboard-container .action-card.secondary {
-  background: linear-gradient(135deg, #f29a4c, #d0680f) !important;
+  background: linear-gradient(135deg, #ff9a3d, #e86b00) !important;
 }
 
 .search-input:focus,
@@ -130,87 +216,6 @@ body {
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
-  border-color: #ec7b1b !important;
-  box-shadow: 0 0 0 3px rgba(236,123,27, .14) !important;
-}
-
-@keyframes pageReveal {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes orangeShimmer {
-  0%, 100% { box-shadow: 0 8px 22px rgba(236,123,27, .08); }
-  50% { box-shadow: 0 14px 30px rgba(236,123,27, .18); }
-}
-
-.services-page,
-.process-page,
-.about-container,
-.contact-container,
-.service-detail-container,
-.admin-layout {
-  animation: pageReveal .65s ease both;
-}
-
-.service-group,
-.process-card,
-.promise-section,
-.stat-card,
-.testimonial-card,
-.coverage-card,
-.faq-item {
-  animation: pageReveal .6s ease both, orangeShimmer 4.5s ease-in-out infinite;
-}
-
-.service-group:nth-child(2),
-.process-card:nth-child(2),
-.stat-card:nth-child(2),
-.coverage-card:nth-child(2),
-.faq-item:nth-child(2) { animation-delay: .08s, .8s; }
-
-.service-group:nth-child(3),
-.process-card:nth-child(3),
-.stat-card:nth-child(3),
-.coverage-card:nth-child(3),
-.faq-item:nth-child(3) { animation-delay: .16s, 1.6s; }
-
-.service-group:nth-child(4),
-.stat-card:nth-child(4),
-.faq-item:nth-child(4) { animation-delay: .24s, 2.4s; }
-
-button,
-a,
-.service-card,
-.value-item,
-.feature-card {
-  transition: transform .25s ease, box-shadow .25s ease, color .25s ease, background-color .25s ease;
-}
-
-button:hover,
-a:hover {
-  transform: translateY(-2px);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .services-page,
-  .process-page,
-  .about-container,
-  .contact-container,
-  .service-detail-container,
-  .admin-layout,
-  .service-group,
-  .process-card,
-  .promise-section,
-  .stat-card,
-  .testimonial-card,
-  .coverage-card,
-  .faq-item {
-    animation: none !important;
-  }
-
-  button:hover,
-  a:hover {
-    transform: none;
-  }
+  border-color: #ff7900 !important;
+  box-shadow: 0 0 0 3px rgba(255, 121, 0, .14) !important;
 }

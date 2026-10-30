@@ -1,4 +1,6 @@
 import { Injectable, signal } from '@angular/core';
+import { SITE_TRANSLATIONS } from '../i18n/site-translations';
+import { PAGE_TRANSLATIONS } from '../i18n/page-translations';
 
 export type Language = 'en' | 'mr' | 'hi';
 
@@ -310,6 +312,8 @@ export class LanguageService {
   }
 
   t(key: string): string {
-    return translations[this.language()][key] || translations.en[key] || key;
+    const language = this.language();
+    return PAGE_TRANSLATIONS[language][key] || SITE_TRANSLATIONS[language][key] || translations[language][key]
+      || PAGE_TRANSLATIONS.en[key] || SITE_TRANSLATIONS.en[key] || translations.en[key] || key;
   }
 }

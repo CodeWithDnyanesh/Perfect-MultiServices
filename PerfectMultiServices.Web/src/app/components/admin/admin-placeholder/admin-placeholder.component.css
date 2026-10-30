@@ -24,11 +24,11 @@
 .page-header h1 {
   margin: 0;
   font-size: 2rem;
-  color: #262626;
+  color: #252525;
 }
 
 .primary-btn {
-  background: linear-gradient(135deg, #ec7b1b, #d0680f);
+  background: linear-gradient(135deg, #ff7900, #e86b00);
   border: none;
   color: white;
   border-radius: 0.75rem;
@@ -51,7 +51,7 @@
   box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
 }
 
-.tone-primary { border-left: 5px solid #ec7b1b; }
+.tone-primary { border-left: 5px solid #ff7900; }
 .tone-success { border-left: 5px solid #16a34a; }
 .tone-warning { border-left: 5px solid #f59e0b; }
 .tone-danger { border-left: 5px solid #dc2626; }
@@ -66,7 +66,7 @@
 .stat-value {
   font-size: clamp(1.3rem, 2vw, 1.8rem);
   font-weight: 700;
-  color: #262626;
+  color: #252525;
 }
 
 .content-grid {
@@ -86,7 +86,7 @@
 .panel h2 {
   margin-top: 0;
   margin-bottom: 1rem;
-  color: #262626;
+  color: #252525;
 }
 
 .overview-panel ul {
@@ -121,7 +121,7 @@
   justify-content: space-between;
   gap: 0.75rem;
   margin-bottom: 0.4rem;
-  color: #262626;
+  color: #252525;
 }
 
 .item-header span {

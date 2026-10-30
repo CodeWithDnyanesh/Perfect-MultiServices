@@ -1,51 +1,55 @@
-<footer class="footer" data-reveal>
+<footer class="footer">
   <div class="footer-container">
-    <div class="footer-content">
-      <div class="footer-section">
-        <img class="footer-logo" src="assets/perfect-multi-services-logo.png" alt="Perfect Multi Services" />
-        <h3>Perfect Multi Services</h3>
-        <p>{{ i18n.t('footerDescription') }}</p>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a routerLink="/" class="footer-logo" aria-label="Perfect Multi Services Pvt. Ltd. – home">
+          <img src="assets/perfect-multi-services-logo-cropped.png" alt="Perfect Multi Services Pvt. Ltd." width="503" height="311" loading="lazy" />
+        </a>
+        <p>{{ i18n.t('footerIntro') }}</p>
         <div class="social-links">
-          <a href="#" class="social-link">📘</a>
-          <a href="#" class="social-link">📸</a>
-          <a href="#" class="social-link">🐦</a>
-          <a href="#" class="social-link">💼</a>
+          <a [href]="contact.whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp"><app-icon name="whatsapp" /></a>
+          <a [href]="contact.phones[0].href" [attr.aria-label]="i18n.t('contactCall')"><app-icon name="phone" /></a>
+          <a [href]="'mailto:' + contact.email" [attr.aria-label]="i18n.t('contactWrite')"><app-icon name="mail" /></a>
         </div>
       </div>
 
-      <div class="footer-section">
-        <h3>{{ i18n.t('quickLinks') }}</h3>
+      <div>
+        <h3>{{ i18n.t('footerQuickTitle') }}</h3>
         <ul class="footer-links">
-          <li><a routerLink="/">{{ i18n.t('home') }}</a></li>
-          <li><a routerLink="/about">{{ i18n.t('about') }}</a></li>
-          <li><a routerLink="/services">{{ i18n.t('services') }}</a></li>
-          <li><a routerLink="/how-it-works">{{ i18n.t('howItWorks') }}</a></li>
-          <li><a routerLink="/contact">{{ i18n.t('contact') }}</a></li>
+          @for (link of quickLinks; track link.url) {
+            <li><a [routerLink]="link.url">{{ i18n.t(link.label) }}</a></li>
+          }
         </ul>
       </div>
 
-      <div class="footer-section">
-        <h3>{{ i18n.t('services') }}</h3>
+      <div>
+        <h3>{{ i18n.t('footerServicesTitle') }}</h3>
         <ul class="footer-links">
-          <li><a routerLink="/service/housekeeping-services">{{ i18n.t('housekeeping') }}</a></li>
-          <li><a routerLink="/service/maintenance-services">{{ i18n.t('maintenance') }}</a></li>
-          <li><a routerLink="/service/industrial-cleaning">{{ i18n.t('industrialCleaning') }}</a></li>
-          <li><a routerLink="/service/office-maintenance">{{ i18n.t('officeMaintenance') }}</a></li>
+          @for (service of catalog.all(); track service.slug) {
+            <li><a [routerLink]="service.url">{{ service.content.name }}</a></li>
+          }
         </ul>
       </div>
 
-      <div class="footer-section">
-        <h3>{{ i18n.t('contactInfo') }}</h3>
-        <ul class="contact-info">
-          <li>📍 Sangli, Maharashtra</li>
-          <li>📧 <a href="mailto:perfectmultiservicess@gmail.com">perfectmultiservicess&#64;gmail.com</a></li>
-          <li>📞 <a href="tel:+918460657606">+91 84606 57606</a> / <a href="tel:+919922101262">99221 01262</a></li>
+      <div>
+        <h3>{{ i18n.t('footerContactTitle') }}</h3>
+        <ul class="footer-contact">
+          <li><app-icon name="pin" /><span>{{ i18n.t('officeAddress') }}</span></li>
+          <li><app-icon name="phone" />
+            <span>
+              @for (phone of contact.phones; track phone.href) {
+                <a [href]="phone.href">{{ phone.label }}</a>
+              }
+            </span>
+          </li>
+          <li><app-icon name="mail" /><a [href]="'mailto:' + contact.email">{{ contact.email }}</a></li>
         </ul>
       </div>
     </div>
 
     <div class="footer-bottom">
       <p>&copy; {{ currentYear }} Perfect Multi Services Pvt. Ltd. {{ i18n.t('allRights') }}</p>
+      <p class="footer-tagline">One Call All Services</p>
     </div>
   </div>
 </footer>

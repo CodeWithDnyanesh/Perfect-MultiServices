@@ -1,71 +1,155 @@
-<div class="home-container">
-  <!-- Loading State -->
-  <div *ngIf="loading" class="loading-container">
-    <div class="spinner"></div>
-    <p>{{ i18n.t('loading') }}</p>
-  </div>
+<main class="page home">
 
-  <!-- Error State -->
-  <div *ngIf="error" class="error-container">
-    <p>{{ error }}</p>
-    <button (click)="loadData()" class="retry-button">{{ i18n.t('retry') }}</button>
-  </div>
-
-  <!-- Content -->
-  <div *ngIf="!loading && !error && companyInfo" class="home-shell">
-    <header class="hero-section" id="top" data-reveal>
-      <div class="hero-text">
-        <span class="eyebrow">{{ i18n.t('aboutEyebrow') }}</span>
-        <h1 class="company-name">{{ companyInfo.name }}</h1>
-        <p class="tagline">{{ companyInfo.tagline }}</p>
-        <p class="description">{{ companyInfo.description }}</p>
-
+  <!-- A. Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <svg class="hero-curves" viewBox="0 0 1440 640" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M980 0C1080 160 1180 260 1440 300V0Z" />
+      <path d="M0 560C260 500 520 620 860 600C1100 586 1280 520 1440 470V640H0Z" />
+    </svg>
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">{{ i18n.t('heroEyebrow') }}</p>
+        <h1 id="hero-title">{{ i18n.t('heroTitle') }}</h1>
+        <p class="hero-text">{{ i18n.t('heroText') }}</p>
         <div class="hero-actions">
-          <button (click)="router.navigate(['/contact'])" class="cta-button">{{ i18n.t('bookService') }}</button>
-          <button (click)="router.navigate(['/about'])" class="secondary-button">{{ i18n.t('whyChooseUs') }}</button>
+          <a class="btn btn-primary" routerLink="/services">{{ i18n.t('heroExplore') }} <app-icon name="arrowRight" /></a>
+          <a class="btn btn-outline" routerLink="/get-a-quote">{{ i18n.t('heroQuote') }}</a>
         </div>
-
-        <div class="location-badge">
-          <span class="icon">📍</span>
-          <span>{{ companyInfo.location }}</span>
-        </div>
-
-        <div class="trust-row">
-          <div class="trust-item">
-            <span class="trust-icon">⭐</span>
-            <div>
-              <strong>4.9/5</strong>
-              <small>{{ i18n.t('customerRating') }}</small>
-            </div>
-          </div>
-          <div class="trust-item">
-            <span class="trust-icon">🧹</span>
-            <div>
-              <strong>1250+</strong>
-              <small>{{ i18n.t('homesServed') }}</small>
-            </div>
-          </div>
-          <div class="trust-item">
-            <span class="trust-icon">⏱️</span>
-            <div>
-              <strong>24/7</strong>
-              <small>{{ i18n.t('support') }}</small>
-            </div>
-          </div>
-        </div>
+        <p class="hero-base"><app-icon name="pin" /> {{ i18n.t('heroBase') }}</p>
       </div>
 
-      <div class="hero-visual"></div>
-    </header>
+      <div class="hero-visual">
+        <div class="hero-shape" aria-hidden="true"></div>
+        <figure class="hero-photo">
+          <img src="assets/site/hero-office-cleaning.jpg" width="820" height="500" fetchpriority="high" [alt]="i18n.t('heroImageAlt')" />
+        </figure>
+        <a class="hero-card" [href]="contact.phones[0].href">
+          <span class="hero-card-icon"><app-icon name="phone" /></span>
+          <span>
+            <small>{{ i18n.t('contactCall') }}</small>
+            <strong>{{ contact.phones[0].label }}</strong>
+          </span>
+        </a>
+      </div>
+    </div>
 
-    <section class="promo-section" aria-roledescription="carousel" [attr.aria-label]="i18n.t('promoHeading')" data-reveal>
-      <div class="promo-heading">
+    <div class="container">
+      <div class="trust-bar">
+        <span class="trust-mark"><app-icon name="checkCircle" /></span>
+        <p>{{ i18n.t('heroTrust') }}</p>
+        <a class="trust-whatsapp" [href]="contact.whatsapp" target="_blank" rel="noopener">
+          <app-icon name="whatsapp" /> {{ i18n.t('whatsappCta') }}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- B. About preview -->
+  <section class="section section-white" aria-labelledby="about-title">
+    <div class="container about-grid">
+      <div class="about-visual" appReveal>
+        <img src="assets/site/about-multi-services.jpg" width="596" height="768" loading="lazy" [alt]="i18n.t('aboutImageAlt')" />
+        <div class="about-stamp"><strong>One Call</strong><span>All Services</span></div>
+      </div>
+      <div class="about-copy" appReveal>
+        <p class="eyebrow">{{ i18n.t('aboutEyebrowNew') }}</p>
+        <h2 id="about-title">{{ i18n.t('aboutTitleNew') }}</h2>
+        <p class="lead">{{ i18n.t('aboutTextNew') }}</p>
+        <ul class="benefit-grid">
+          @for (benefit of benefits; track benefit.key) {
+            <li>
+              <span class="badge-icon"><app-icon [name]="benefit.icon" /></span>
+              <div>
+                <strong>{{ i18n.t(benefit.key + 'Title') }}</strong>
+                <span>{{ i18n.t(benefit.key + 'Text') }}</span>
+              </div>
+            </li>
+          }
+        </ul>
+        <a class="btn btn-primary" routerLink="/about">{{ i18n.t('readMoreAbout') }} <app-icon name="arrowRight" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- C. Services -->
+  <section class="section" aria-labelledby="services-title">
+    <div class="container">
+      <header class="section-head section-head-row" appReveal>
         <div>
-          <span class="subtitle">{{ i18n.t('promoEyebrow') }}</span>
-          <h2>{{ i18n.t('promoHeading') }}</h2>
+          <p class="eyebrow">{{ i18n.t('servicesEyebrowNew') }}</p>
+          <h2 id="services-title">{{ i18n.t('servicesTitleNew') }}</h2>
+          <p class="lead">{{ i18n.t('servicesTextNew') }}</p>
         </div>
-        <p>{{ i18n.t('promoIntro') }}</p>
+        <a class="btn btn-outline" routerLink="/services">{{ i18n.t('navAllServices') }} <app-icon name="arrowRight" /></a>
+      </header>
+      <div class="service-grid">
+        @for (service of catalog.all(); track service.slug) {
+          <app-service-card [service]="service" appReveal />
+        }
       </div>
+    </div>
+  </section>
+
+  <!-- D. Why choose us -->
+  <section class="section section-white" aria-labelledby="why-title">
+    <div class="container">
+      <header class="section-head section-head-row" appReveal>
+        <div>
+          <p class="eyebrow">{{ i18n.t('whyEyebrow') }}</p>
+          <h2 id="why-title">{{ i18n.t('whyTitle') }}</h2>
+          <p class="lead">{{ i18n.t('whyText') }}</p>
+        </div>
+        <a class="link-arrow" routerLink="/why-choose-us">{{ i18n.t('whyLink') }} <app-icon name="arrowRight" /></a>
+      </header>
+      <app-reasons />
+    </div>
+  </section>
+
+  <!-- E. Industries -->
+  <section class="section" aria-labelledby="industries-title">
+    <div class="container">
+      <header class="section-head section-head-row" appReveal>
+        <div>
+          <p class="eyebrow">{{ i18n.t('industriesEyebrow') }}</p>
+          <h2 id="industries-title">{{ i18n.t('industriesTitle') }}</h2>
+          <p class="lead">{{ i18n.t('industriesText') }}</p>
+        </div>
+        <a class="link-arrow" routerLink="/industries">{{ i18n.t('industriesLink') }} <app-icon name="arrowRight" /></a>
+      </header>
+      <div class="industry-grid">
+        @for (industry of industries; track industry.id) {
+          <a class="industry-card" routerLink="/industries" [fragment]="industry.id" appReveal>
+            <span class="industry-icon"><app-icon [name]="industry.icon" /></span>
+            <span class="industry-body">
+              <h3>{{ i18n.t(industry.key + 'Title') }}</h3>
+              <span>{{ i18n.t(industry.key + 'Text') }}</span>
+            </span>
+            <app-icon name="arrowRight" class="industry-arrow" />
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- F. How it works -->
+  <section class="section section-white" aria-labelledby="steps-title">
+    <div class="container">
+      <header class="section-head section-head-center" appReveal>
+        <p class="eyebrow">{{ i18n.t('stepsEyebrow') }}</p>
+        <h2 id="steps-title">{{ i18n.t('stepsTitle') }}</h2>
+      </header>
+      <app-steps />
+    </div>
+  </section>
+
+  <!-- Poster carousel -->
+  <section class="section promo" aria-roledescription="carousel" [attr.aria-label]="i18n.t('promoHeading')">
+    <div class="container">
+      <header class="section-head" appReveal>
+        <p class="eyebrow">{{ i18n.t('promoEyebrow') }}</p>
+        <h2>{{ i18n.t('promoHeading') }}</h2>
+        <p>{{ i18n.t('promoIntro') }}</p>
+      </header>
 
       <div class="promo-carousel" [class.autoplay]="autoplay" [class.paused]="carouselPaused"
         (mouseenter)="pauseCarousel(true)" (mouseleave)="pauseCarousel(false)"
@@ -73,312 +157,83 @@
         (keydown.arrowleft)="previousSlide()" (keydown.arrowright)="nextSlide()">
         <div class="promo-viewport" (pointerdown)="onSwipeStart($event)" (pointerup)="onSwipeEnd($event)" (pointercancel)="onSwipeEnd($event)">
           <div class="promo-track" [style.transform]="'translateX(-' + activeSlide * 100 + '%)'">
-            <article class="promo-slide" *ngFor="let slide of carouselSlides; let i = index"
-              [class.active]="activeSlide === i" role="group" aria-roledescription="slide"
-              [attr.aria-label]="(i + 1) + ' / ' + carouselSlides.length" [attr.aria-hidden]="activeSlide !== i"
-              [attr.inert]="activeSlide !== i ? '' : null">
-              <div class="promo-media">
-                <img class="promo-backdrop" [src]="slide.image" alt="" aria-hidden="true" />
-                <img class="promo-image" [src]="slide.image" [alt]="i18n.t(slide.key + 'Title')"
-                  [attr.loading]="i === 0 ? 'eager' : 'lazy'" draggable="false" />
-              </div>
-              <div class="promo-content">
-                <span class="promo-tag">{{ i18n.t(slide.key + 'Tag') }}</span>
-                <h3>{{ i18n.t(slide.key + 'Title') }}</h3>
-                <p>{{ i18n.t(slide.key + 'Text') }}</p>
-                <ul class="promo-points">
-                  <li *ngFor="let point of points(slide.key + 'Points')">{{ point }}</li>
-                </ul>
-                <div class="promo-actions">
-                  <button type="button" class="cta-button" (click)="router.navigate(['/contact'])">{{ i18n.t('bookSlot') }}</button>
-                  <a class="promo-call" [href]="phoneNumbers[1].href">📞 {{ phoneNumbers[1].label }}</a>
+            @for (slide of carouselSlides; track slide.key; let i = $index) {
+              <article class="promo-slide" [class.active]="activeSlide === i" role="group" aria-roledescription="slide"
+                [attr.aria-label]="(i + 1) + ' / ' + carouselSlides.length" [attr.aria-hidden]="activeSlide !== i"
+                [attr.inert]="activeSlide !== i ? '' : null">
+                <div class="promo-media">
+                  <img class="promo-backdrop" [src]="slide.image" alt="" aria-hidden="true" />
+                  <img class="promo-image" [src]="slide.image" [alt]="i18n.t(slide.key + 'Title')"
+                    [attr.loading]="i === 0 ? null : 'lazy'" draggable="false" />
                 </div>
-              </div>
-            </article>
+                <div class="promo-content">
+                  <span class="promo-tag">{{ i18n.t(slide.key + 'Tag') }}</span>
+                  <h3>{{ i18n.t(slide.key + 'Title') }}</h3>
+                  <p>{{ i18n.t(slide.key + 'Text') }}</p>
+                  <ul class="promo-points">
+                    @for (point of points(slide.key + 'Points'); track point) {
+                      <li><app-icon name="check" /> {{ point }}</li>
+                    }
+                  </ul>
+                  <div class="promo-actions">
+                    <a class="btn btn-primary" routerLink="/get-a-quote">{{ i18n.t('bookSlot') }}</a>
+                    <a class="btn btn-outline" [href]="contact.phones[1].href"><app-icon name="phone" /> {{ contact.phones[1].label }}</a>
+                  </div>
+                </div>
+              </article>
+            }
           </div>
         </div>
 
         <div class="promo-controls">
-          <button type="button" class="carousel-arrow" (click)="previousSlide()" [attr.aria-label]="i18n.t('previousSlide')">←</button>
-          <div class="carousel-dots">
-            <button *ngFor="let slide of carouselSlides; let i = index" type="button" class="carousel-dot"
-              [class.active]="activeSlide === i" (click)="goToSlide(i)" [attr.aria-label]="i18n.t(slide.key + 'Tag')"
-              [attr.aria-current]="activeSlide === i">
-              <span class="dot-progress" *ngIf="activeSlide === i" (animationend)="nextSlide()"></span>
-            </button>
+          <button type="button" class="round-btn" (click)="previousSlide()" [attr.aria-label]="i18n.t('previousSlide')">
+            <app-icon name="arrowRight" class="flip" />
+          </button>
+          <div class="promo-dots">
+            @for (slide of carouselSlides; track slide.key; let i = $index) {
+              <button type="button" class="promo-dot" [class.active]="activeSlide === i" (click)="goToSlide(i)"
+                [attr.aria-label]="i18n.t(slide.key + 'Tag')" [attr.aria-current]="activeSlide === i">
+                @if (activeSlide === i) {
+                  <span class="dot-progress" (animationend)="nextSlide()"></span>
+                }
+              </button>
+            }
           </div>
-          <span class="promo-counter">{{ (activeSlide + 1).toString().padStart(2, '0') }} / {{ carouselSlides.length.toString().padStart(2, '0') }}</span>
-          <button type="button" class="carousel-arrow" (click)="nextSlide()" [attr.aria-label]="i18n.t('nextSlide')">→</button>
+          <button type="button" class="round-btn" (click)="nextSlide()" [attr.aria-label]="i18n.t('nextSlide')">
+            <app-icon name="arrowRight" />
+          </button>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="stats-strip" data-reveal>
-      <div class="stat-box">
-        <strong>1250+</strong>
-        <span>Happy customers</span>
-      </div>
-      <div class="stat-box">
-        <strong>98%</strong>
-        <span>Repeat bookings</span>
-      </div>
-      <div class="stat-box">
-        <strong>28</strong>
-        <span>Expert staff</span>
-      </div>
-      <div class="stat-box">
-        <strong>12+</strong>
-        <span>Years of trust</span>
-      </div>
-    </section>
+  <!-- G. Call to action -->
+  <app-cta-band [title]="i18n.t('heroTrust')" [text]="i18n.t('ctaText')" />
 
-    <section class="experience-section" data-reveal>
-      <div class="experience-heading">
-        <span class="subtitle">Built around you</span>
-        <h2>More than a service. A smoother way to care for your space.</h2>
-      </div>
-      <div class="experience-grid">
-        <article class="experience-card" *ngFor="let card of experienceCards; let i = index" [class.experience-card-primary]="i === 0">
-          <div class="experience-media">
-            <img [src]="card.image" [alt]="card.title" loading="lazy" />
-          </div>
-          <div class="experience-body">
-            <span class="experience-number">{{ (i + 1).toString().padStart(2, '0') }}</span>
-            <h3>{{ card.title }}</h3>
-            <p>{{ card.text }}</p>
-            <ul class="experience-points">
-              <li *ngFor="let point of card.points">{{ point }}</li>
-            </ul>
-            <a [href]="card.link" (click)="$event.preventDefault(); router.navigate([card.link])">{{ card.action }} →</a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="services-section" id="services" data-reveal>
-      <div class="section-heading">
-        <span class="subtitle">{{ i18n.t('ourServices') }}</span>
-        <h2>{{ i18n.t('professionalCare') }}</h2>
-      </div>
-
-      <div class="services-grid">
-        <div *ngFor="let service of services" class="service-card" (click)="navigateToService(service.name)">
-          <div class="service-icon">{{ getServiceIcon(service.icon) }}</div>
-          <h3 class="service-name">{{ service.name }}</h3>
-          <p class="service-description">{{ service.description }}</p>
-          <span class="service-category">{{ service.category }}</span>
-          <div class="learn-more">{{ i18n.t('learnMore') }} →</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="special-section" data-reveal>
-      <div class="section-heading">
-        <span class="subtitle">{{ i18n.t('specialEyebrow') }}</span>
-        <h2>{{ i18n.t('specialHeading') }}</h2>
-      </div>
-      <div class="special-grid">
-        <article class="special-card" *ngFor="let service of specialisedServices">
-          <div class="special-media">
-            <img [src]="service.image" [alt]="i18n.t(service.key + 'Title')" loading="lazy" />
-          </div>
-          <div class="special-body">
-            <span class="promo-tag">{{ i18n.t(service.key + 'Tagline') }}</span>
-            <h3>{{ i18n.t(service.key + 'Title') }}</h3>
-            <p>{{ i18n.t(service.key + 'Text') }}</p>
-            <ul class="special-features">
-              <li *ngFor="let feature of service.features">
-                <span class="special-icon" aria-hidden="true">{{ feature.icon }}</span>
-                <div>
-                  <strong>{{ i18n.t(feature.key) }}</strong>
-                  <small>{{ i18n.t(feature.key + 'Text') }}</small>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </article>
-      </div>
-      <ul class="assurance-strip">
-        <li *ngFor="let item of assurances">✓ {{ i18n.t(item) }}</li>
-      </ul>
-    </section>
-
-    <section class="booking-strip" data-reveal>
-      <div class="booking-copy">
-        <span class="subtitle light">{{ i18n.t('callToday') }}</span>
-        <h2>{{ i18n.t('bookSlotNow') }}</h2>
-        <p>{{ i18n.t('oneCallTagline') }}</p>
-      </div>
-      <div class="booking-phones">
-        <a *ngFor="let phone of phoneNumbers" [href]="phone.href" class="booking-phone">📞 {{ phone.label }}</a>
-      </div>
-      <address class="booking-address">
-        <span>📍 {{ i18n.t('officeAddress') }}</span>
-        <a [href]="'mailto:' + companyInfo.contactEmail">📧 {{ companyInfo.contactEmail }}</a>
-      </address>
-    </section>
-
-    <section class="value-section" data-reveal>
-      <div class="value-copy">
-        <span class="subtitle">{{ i18n.t('chooseUs') }}</span>
-        <h2>{{ i18n.t('cleanSpaces') }}</h2>
-        <p>We combine quality, safety, and convenience to deliver housekeeping and maintenance support that fits your lifestyle.</p>
-      </div>
-
-      <div class="value-points">
-        <div class="value-item">
-          <span class="value-icon">🛡️</span>
-          <div>
-            <h3>Verified professionals</h3>
-            <p>Background-checked, trained, and service-focused teams.</p>
-          </div>
-        </div>
-        <div class="value-item">
-          <span class="value-icon">📋</span>
-          <div>
-            <h3>Transparent process</h3>
-            <p>Clear scheduling, straightforward pricing, and updates at every step.</p>
-          </div>
-        </div>
-        <div class="value-item">
-          <span class="value-icon">💬</span>
-          <div>
-            <h3>Responsive support</h3>
-            <p>Quick help for queries, changes, and service requests.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="process-section" id="process" data-reveal>
-      <div class="section-heading center">
-        <span class="subtitle">{{ i18n.t('howItWorks') }}</span>
-        <h2>{{ i18n.t('howSimple') }}</h2>
-      </div>
-
-      <div class="process-grid">
-        <div class="process-card">
-          <span class="step-number">01</span>
-          <h3>Share your needs</h3>
-          <p>Tell us the service, timing, and preferences.</p>
-        </div>
-        <div class="process-card">
-          <span class="step-number">02</span>
-          <h3>Get a quote</h3>
-          <p>Receive a tailored estimate with transparent pricing.</p>
-        </div>
-        <div class="process-card">
-          <span class="step-number">03</span>
-          <h3>Enjoy peace of mind</h3>
-          <p>Our team arrives, performs the work, and follows up.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="testimonial-section" data-reveal>
-      <div class="testimonial-heading">
-        <span class="subtitle">Client stories</span>
-        <h2>Trusted by people who value a job well done.</h2>
-      </div>
+  <!-- H. Testimonials (placeholders until real reviews are provided) -->
+  <section class="section section-white" aria-labelledby="testi-title">
+    <div class="container">
+      <header class="section-head section-head-center" appReveal>
+        <p class="eyebrow">{{ i18n.t('testiEyebrow') }}</p>
+        <h2 id="testi-title">{{ i18n.t('testiTitle') }}</h2>
+        <p>{{ i18n.t('testiText') }}</p>
+      </header>
       <div class="testimonial-grid">
-        <article class="testimonial-card">
-          <div class="quote-mark">“</div>
-          <p>Perfect Multi Services gave our office a fresh start. The team was punctual, professional, and incredibly thorough.</p>
-          <div class="testimonial-person"><span>AS</span><div><strong>Ananya Shah</strong><small>Office manager</small></div></div>
-        </article>
-        <article class="testimonial-card featured-testimonial">
-          <div class="quote-mark">“</div>
-          <p>It feels wonderful coming home to a space that is cared for properly. The booking process was simple from start to finish.</p>
-          <div class="testimonial-person"><span>RK</span><div><strong>Rohan Kulkarni</strong><small>Residential client</small></div></div>
-        </article>
-        <article class="testimonial-card">
-          <div class="quote-mark">“</div>
-          <p>Reliable support, transparent pricing, and a team that genuinely listens. They are now our go-to service partner.</p>
-          <div class="testimonial-person"><span>NP</span><div><strong>Neha Patil</strong><small>Facility coordinator</small></div></div>
-        </article>
+        @for (slot of testimonialSlots; track slot) {
+          <figure class="testimonial-card" appReveal>
+            <span class="placeholder-badge">{{ i18n.t('testiPlaceholderBadge') }}</span>
+            <app-icon name="quote" class="quote-icon" />
+            <blockquote>{{ i18n.t('testiPlaceholderQuote') }}</blockquote>
+            <figcaption>
+              <span class="avatar" aria-hidden="true"><app-icon name="users" /></span>
+              <span>
+                <strong>{{ i18n.t('testiPlaceholderName') }}</strong>
+                <small>{{ i18n.t('testiPlaceholderRole') }}</small>
+              </span>
+            </figcaption>
+          </figure>
+        }
       </div>
-    </section>
-
-    <section class="coverage-section" data-reveal>
-      <div class="coverage-heading">
-        <span class="subtitle">Built for every space</span>
-        <h2>One dependable team for the places that matter most.</h2>
-        <p>From a quick home refresh to a complete facility care plan, we bring the same attention to detail, clear communication, and dependable standards to every visit.</p>
-      </div>
-      <div class="coverage-grid">
-        <article class="coverage-card">
-          <span class="coverage-icon">🏠</span>
-          <h3>Homes & apartments</h3>
-          <p>Regular housekeeping, deep cleaning, sanitization, and move-in or move-out support.</p>
-          <a routerLink="/services">Explore home care <span>→</span></a>
-        </article>
-        <article class="coverage-card coverage-card-accent">
-          <span class="coverage-icon">🏢</span>
-          <h3>Offices & retail</h3>
-          <p>Professional cleaning routines that keep teams productive and customers comfortable.</p>
-          <a routerLink="/services">Explore commercial care <span>→</span></a>
-        </article>
-        <article class="coverage-card">
-          <span class="coverage-icon">🏭</span>
-          <h3>Facilities & sites</h3>
-          <p>Flexible maintenance, pest control, and specialized cleaning for larger environments.</p>
-          <a routerLink="/contact">Plan facility support <span>→</span></a>
-        </article>
-      </div>
-    </section>
-
-    <section class="faq-section" data-reveal>
-      <div class="section-heading center">
-        <span class="subtitle">Good to know</span>
-        <h2>Questions, answered clearly.</h2>
-      </div>
-      <div class="faq-grid">
-        <details class="faq-item">
-          <summary>Can I schedule a one-time service?</summary>
-          <p>Yes. We support one-time visits as well as weekly, monthly, and tailored recurring plans.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Do you bring the cleaning materials?</summary>
-          <p>Our team can bring the required equipment and products. Tell us about any preferred or sensitive products when you request a quote.</p>
-        </details>
-        <details class="faq-item">
-          <summary>How do I get a price for my property?</summary>
-          <p>Share your space, service needs, and preferred timing through our contact form. We will recommend the right plan and provide a clear estimate.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Do you serve businesses and large facilities?</summary>
-          <p>Yes. We create flexible service schedules for offices, retail spaces, industrial facilities, and shared properties.</p>
-        </details>
-      </div>
-    </section>
-
-    <section class="contact-section" data-reveal>
-      <div class="contact-card">
-        <div class="contact-copy">
-          <span class="subtitle light">Need a custom quote?</span>
-          <h2>Let’s plan the right service for your property.</h2>
-        </div>
-
-        <div class="contact-info">
-          <div class="contact-item">
-            <span class="icon">📧</span>
-            <a class="contact-link" [href]="'mailto:' + companyInfo.contactEmail">{{ companyInfo.contactEmail }}</a>
-          </div>
-          <div class="contact-item">
-            <span class="icon">📞</span>
-            <span>{{ companyInfo.phone }}</span>
-          </div>
-          <div class="contact-item">
-            <span class="icon">📍</span>
-            <span>{{ companyInfo.location }}</span>
-          </div>
-        </div>
-
-        <div class="cta-buttons">
-          <button (click)="router.navigate(['/contact'])" class="cta-button">Get a Quote</button>
-          <button (click)="router.navigate(['/about'])" class="secondary-button">Learn More</button>
-        </div>
-      </div>
-    </section>
-  </div>
-</div>
+    </div>
+  </section>
+</main>
