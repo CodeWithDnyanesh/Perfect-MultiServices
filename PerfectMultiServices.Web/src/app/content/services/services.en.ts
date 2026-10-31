@@ -1,6 +1,8 @@
 import { ServiceContentSet } from './service-content';
+import { SERVICES_EN_EXTRA } from './services-extra.en';
 
 export const SERVICES_EN: ServiceContentSet = {
+  ...SERVICES_EN_EXTRA,
   'housekeeping-cleaning': {
     name: 'Housekeeping & Cleaning Services',
     tagline: 'Spotless, hygienic spaces every day, handled by trained housekeeping staff.',
@@ -118,13 +120,13 @@ export const SERVICES_EN: ServiceContentSet = {
     summary: 'Integrated management of housekeeping, maintenance, support staff and day-to-day upkeep for offices, residential complexes and industrial sites.',
     highlights: ['Single point of contact', 'Trained on-site teams', 'Planned maintenance'],
     overview: [
-      'Running a building involves many services: cleaning, technical maintenance, security, gardening and more. Managing a separate vendor for each takes time and often leaves gaps.',
+      'Running a building involves many services: cleaning, technical maintenance, gardening and more. Managing a separate vendor for each takes time and often leaves gaps.',
       'With our facility management service, one team plans and supervises these services for you. We deploy trained staff, follow agreed schedules and keep you informed, so your property runs smoothly every day.'
     ],
     included: [
       'Housekeeping and cleaning staff',
       'Electrical, plumbing and general maintenance',
-      'Security and front-desk support',
+      'Front-desk and support staff',
       'Gardening and outdoor upkeep',
       'Waste management',
       'Supervision and regular reporting'
@@ -146,43 +148,6 @@ export const SERVICES_EN: ServiceContentSet = {
       { q: 'Can we choose only some services?', a: 'Yes. Start with the services you need, such as housekeeping and maintenance, and add more later.' },
       { q: 'Do you provide on-site supervisors?', a: 'For larger sites we assign a supervisor who manages our staff and coordinates with you.' },
       { q: 'How are contracts priced?', a: 'Pricing depends on the services, staffing and site size. We share a clear proposal after a site visit.' }
-    ]
-  },
-
-  'security-services': {
-    name: 'Security Services',
-    tagline: 'Trained, verified security personnel to protect your people and property.',
-    summary: 'Professional security staff for homes, offices, societies and industrial sites, with clear duties and regular supervision.',
-    highlights: ['Verified, trained guards', 'Day & night shifts', 'Access & visitor control'],
-    overview: [
-      'A visible, alert security team prevents problems before they happen and gives residents, employees and visitors confidence.',
-      'We provide background-verified security personnel trained in access control, patrolling and emergency response. Duties and shift timings are agreed with you, and our supervisors check that they are followed.'
-    ],
-    included: [
-      'Gate and entry security',
-      'Visitor and vehicle registers',
-      'Patrolling of premises',
-      'Day and night shift guards',
-      'Support during events',
-      'Basic fire and emergency response'
-    ],
-    benefits: [
-      { title: 'Peace of mind', text: 'Your premises are watched by trained personnel.' },
-      { title: 'Controlled access', text: 'Only authorised visitors and vehicles enter.' },
-      { title: 'Verified staff', text: 'Background checks are completed before deployment.' },
-      { title: 'Supervised duty', text: 'Regular checks keep guards alert and accountable.' }
-    ],
-    process: [
-      { title: 'Security assessment', text: 'We review entry points, risks and timings.' },
-      { title: 'Deployment plan', text: 'Number of guards, shifts and duties are agreed.' },
-      { title: 'Briefed deployment', text: 'Guards are briefed on your site rules.' },
-      { title: 'Supervision', text: 'Regular checks and feedback with you.' }
-    ],
-    idealFor: ['Housing societies', 'Offices', 'Factories & warehouses', 'Shops & malls', 'Events'],
-    faqs: [
-      { q: 'Are your security staff verified?', a: 'Yes. We complete background verification before deploying personnel.' },
-      { q: 'Can you provide guards for night shifts only?', a: 'Yes. Shifts are planned around your requirement: day, night or round-the-clock.' },
-      { q: 'Can you provide security for a single event?', a: 'Yes, subject to availability. Contact us with the date and the expected number of visitors.' }
     ]
   },
 

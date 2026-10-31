@@ -38,8 +38,12 @@ const PROPERTY_TYPES = ['propHome', 'propSociety', 'propOffice', 'propHotel', 'p
         <label [for]="id('service')">{{ i18n.t('formService') }} <span aria-hidden="true">*</span></label>
         <select [id]="id('service')" name="service" required [(ngModel)]="model.service">
           <option value="" disabled>{{ i18n.t('formServicePlaceholder') }}</option>
-          @for (service of catalog.all(); track service.slug) {
-            <option [value]="service.slug">{{ service.content.name }}</option>
+          @for (group of catalog.groups(); track group.id) {
+            <optgroup [label]="i18n.t(group.label)">
+              @for (service of group.services; track service.slug) {
+                <option [value]="service.slug">{{ service.content.name }}</option>
+              }
+            </optgroup>
           }
           <option value="other">{{ i18n.t('formServiceOther') }}</option>
         </select>

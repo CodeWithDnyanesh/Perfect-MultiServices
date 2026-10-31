@@ -4,14 +4,13 @@ import { LanguageService } from '../services/language.service';
 import { ServiceCatalog } from '../services/service-catalog.service';
 import { IconComponent } from '../shared/icon.component';
 import { PageHeroComponent } from '../shared/page-hero.component';
-import { RevealDirective } from '../shared/reveal.directive';
 import { CtaBandComponent } from '../shared/sections.component';
 import { SITE_INDUSTRIES } from '../content/site-content';
 
 @Component({
   selector: 'app-industries-page',
   standalone: true,
-  imports: [RouterLink, IconComponent, PageHeroComponent, RevealDirective, CtaBandComponent],
+  imports: [RouterLink, IconComponent, PageHeroComponent, CtaBandComponent],
   template: `
     <main class="page">
       <app-page-hero [eyebrow]="i18n.t('industriesEyebrow')" [title]="i18n.t('industriesTitle')" [text]="i18n.t('industriesText')"
@@ -70,6 +69,7 @@ import { SITE_INDUSTRIES } from '../content/site-content';
       .industry, .industry.flip { grid-template-columns: minmax(0, 1fr); }
       .industry.flip .media { order: 0; }
       .media { min-height: 180px; }
+      .media:not(.media-placeholder) { aspect-ratio: 4 / 3; }
     }
   `]
 })

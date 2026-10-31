@@ -45,7 +45,15 @@ const ICONS: Record<string, string> = {
   linkedin: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7.5 10v7M7.5 7v.01M11 17v-7M11 13.2c0-1.8 1.2-3.2 2.8-3.2s2.7 1.2 2.7 3.2V17"/>',
   menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
   close: '<path d="M6 6l12 12M18 6L6 18"/>',
-  image: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="9.5" r="1.8"/><path d="M21 16l-5-5-9 9"/>'
+  image: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="9.5" r="1.8"/><path d="M21 16l-5-5-9 9"/>',
+  bug: '<ellipse cx="12" cy="13.5" rx="4.5" ry="6"/><path d="M12 7.5v12M9 4.5l1.5 2M15 4.5l-1.5 2M7.5 11H4M7.5 15H4.5M16.5 11H20M16.5 15h3"/>',
+  glass: '<rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M12 3v18M4 12h16"/><path d="M7 7.5l2-2M14.5 15.5l3-3"/>',
+  kitchen: '<path d="M4 21V10h16v11"/><path d="M4 14h16M9 10V7a3 3 0 0 1 6 0v3"/><path d="M8 17.5h2M14 17.5h2"/>',
+  tank: '<path d="M5 7c0-1.7 3.1-3 7-3s7 1.3 7 3v10c0 1.7-3.1 3-7 3s-7-1.3-7-3z"/><path d="M5 7c0 1.7 3.1 3 7 3s7-1.3 7-3"/><path d="M12 13.5s-1.8 1.9-1.8 3a1.8 1.8 0 0 0 3.6 0c0-1.1-1.8-3-1.8-3z"/>',
+  drain: '<circle cx="12" cy="12" r="8.5"/><path d="M8 9h8M7 12h10M8 15h8"/>',
+  hammer: '<path d="M14 6l4 4M12.5 7.5l4 4-9.5 9.5-4-4z"/><path d="M14 6l2-2 4 4-2 2"/>',
+  paint: '<rect x="4" y="3" width="13" height="6" rx="1.5"/><path d="M17 6h2.5v5.5H11V15"/><rect x="9.5" y="15" width="3" height="6" rx="1"/>',
+  staff: '<circle cx="12" cy="7" r="3.5"/><path d="M5 21v-1.5A5.5 5.5 0 0 1 10.5 14h3a5.5 5.5 0 0 1 5.5 5.5V21"/><path d="M12 14l-1.5 3 1.5 4 1.5-4z"/>'
 };
 
 @Component({

@@ -3,6 +3,7 @@
 
 export const PAGE_TRANSLATIONS: Record<'en' | 'mr' | 'hi', Record<string, string>> = {
   en: {
+    groupHousekeeping: 'Housekeeping Services', groupGeneral: 'General Services',
     navServicesMenu: 'Services', navAllServices: 'View all services', navQuoteShort: 'Get a Quote',
     breadcrumbHome: 'Home', breadcrumbLabel: 'You are here',
     readMoreAbout: 'Read more about us', industriesLink: 'Explore the industries we serve', whyLink: 'See why clients choose us',
@@ -14,7 +15,7 @@ export const PAGE_TRANSLATIONS: Record<'en' | 'mr' | 'hi', Record<string, string
 
     aboutHeroTitle: 'About Perfect Multi Services',
     aboutHeroText: 'A Sangli-based team delivering cleaning, maintenance and facility services for homes, businesses and industries.',
-    aboutStoryExtra: 'We believe customers should not have to call five different vendors to look after one property. That is why our trained teams handle housekeeping, specialised cleaning, technical maintenance, security and outdoor care, all through one call.',
+    aboutStoryExtra: 'We believe customers should not have to call five different vendors to look after one property. That is why our trained teams handle housekeeping, specialised cleaning, technical maintenance and outdoor care, all through one call.',
     missionTitle: 'Our Mission', missionText: 'To make facility care simple and dependable through trained people, clear processes and honest communication.',
     visionTitle: 'Our Vision', visionText: 'To be the first call for every home, business and industry in our region that wants its spaces clean, safe and well maintained.',
     aboutApproachTitle: 'Our Approach', aboutApproachText: 'Every job starts with understanding your space, follows an agreed checklist and ends with a quality check.',
@@ -24,12 +25,12 @@ export const PAGE_TRANSLATIONS: Record<'en' | 'mr' | 'hi', Record<string, string
     servicesPageTitle: 'Professional services for every kind of space.',
 
     industryServicesLabel: 'Services we provide',
-    indOfficesLong: 'Clean desks, washrooms and meeting rooms, comfortable air-conditioning and dependable security help your team work well and impress visitors. We plan work around office hours so business carries on without disruption.',
+    indOfficesLong: 'Clean desks, washrooms and meeting rooms, and comfortable air-conditioning help your team work well and impress visitors. We plan work around office hours so business carries on without disruption.',
     indResidentialLong: 'From individual homes to large housing societies, we keep living spaces clean, common areas well maintained, gardens green and entrances secure, so residents can enjoy their homes.',
     indHotelsLong: 'Guests notice every detail. Our teams keep rooms, lobbies, restaurants and furnishings fresh, and maintain air-conditioning and outdoor areas so your property is always guest-ready.',
     indHospitalsLong: 'Healthcare spaces need careful, hygiene-focused cleaning and reliable utilities. We follow agreed cleaning routines for wards, waiting areas and washrooms, and keep electrical and plumbing systems running.',
-    indMallsLong: 'High footfall means constant cleaning and attentive security. We provide trained staff for floors, washrooms and food courts, along with security and maintenance support throughout opening hours.',
-    indIndustrialLong: 'Factories and warehouses need safe, well-maintained premises. We support industrial sites with facility management, electrical maintenance, solar panel cleaning and security personnel.',
+    indMallsLong: 'High footfall means constant cleaning. We provide trained staff for floors, washrooms and food courts, along with maintenance support throughout opening hours.',
+    indIndustrialLong: 'Factories and warehouses need safe, well-maintained premises. We support industrial sites with facility management, electrical maintenance, solar panel cleaning and trained support staff.',
     indEducationLong: 'Students and staff deserve clean classrooms, safe campuses and green surroundings. We schedule cleaning, gardening and maintenance around timetables and holidays.',
 
     whyPromiseText: 'Whatever the service, these standards apply on every visit.',
@@ -56,6 +57,7 @@ export const PAGE_TRANSLATIONS: Record<'en' | 'mr' | 'hi', Record<string, string
   },
 
   mr: {
+    groupHousekeeping: 'हाऊसकीपिंग सेवा', groupGeneral: 'सामान्य सेवा',
     navServicesMenu: 'सेवा', navAllServices: 'सर्व सेवा पहा', navQuoteShort: 'कोटेशन मिळवा',
     breadcrumbHome: 'मुख्यपृष्ठ', breadcrumbLabel: 'तुम्ही येथे आहात',
     readMoreAbout: 'आमच्याबद्दल अधिक वाचा', industriesLink: 'आम्ही सेवा देत असलेली क्षेत्रे पहा', whyLink: 'ग्राहक आम्हालाच का निवडतात ते पहा',
@@ -67,7 +69,7 @@ export const PAGE_TRANSLATIONS: Record<'en' | 'mr' | 'hi', Record<string, string
 
     aboutHeroTitle: 'Perfect Multi Services बद्दल',
     aboutHeroText: 'घरे, व्यवसाय आणि उद्योगांसाठी स्वच्छता, देखभाल आणि फॅसिलिटी सेवा देणारी सांगलीतील टीम.',
-    aboutStoryExtra: 'एका मालमत्तेच्या देखभालीसाठी ग्राहकांना पाच वेगवेगळ्या विक्रेत्यांना फोन करावा लागू नये, असे आम्हाला वाटते. म्हणूनच आमच्या प्रशिक्षित टीम हाऊसकीपिंग, विशेष स्वच्छता, तांत्रिक देखभाल, सुरक्षा आणि बाहेरील परिसराची निगा — सर्व काही एकाच कॉलवर सांभाळतात.',
+    aboutStoryExtra: 'एका मालमत्तेच्या देखभालीसाठी ग्राहकांना पाच वेगवेगळ्या विक्रेत्यांना फोन करावा लागू नये, असे आम्हाला वाटते. म्हणूनच आमच्या प्रशिक्षित टीम हाऊसकीपिंग, विशेष स्वच्छता, तांत्रिक देखभाल आणि बाहेरील परिसराची निगा — सर्व काही एकाच कॉलवर सांभाळतात.',
     missionTitle: 'आमचे ध्येय', missionText: 'प्रशिक्षित कर्मचारी, स्पष्ट प्रक्रिया आणि प्रामाणिक संवादाद्वारे फॅसिलिटी देखभाल सोपी आणि विश्वासार्ह करणे.',
     visionTitle: 'आमची दृष्टी', visionText: 'आपली जागा स्वच्छ, सुरक्षित आणि सुव्यवस्थित हवी असलेल्या आमच्या भागातील प्रत्येक घर, व्यवसाय आणि उद्योगाचा पहिला कॉल बनणे.',
     aboutApproachTitle: 'आमची कार्यपद्धती', aboutApproachText: 'प्रत्येक काम तुमची जागा समजून घेण्याने सुरू होते, ठरलेल्या चेकलिस्टनुसार चालते आणि दर्जा तपासणीने पूर्ण होते.',
@@ -77,12 +79,12 @@ export const PAGE_TRANSLATIONS: Record<'en' | 'mr' | 'hi', Record<string, string
     servicesPageTitle: 'प्रत्येक प्रकारच्या जागेसाठी व्यावसायिक सेवा.',
 
     industryServicesLabel: 'आम्ही देत असलेल्या सेवा',
-    indOfficesLong: 'स्वच्छ डेस्क, वॉशरूम आणि मीटिंग रूम, आरामदायी एसी आणि विश्वासार्ह सुरक्षा यांमुळे तुमची टीम चांगले काम करते आणि अभ्यागतांवर छाप पडते. कामात व्यत्यय येऊ नये म्हणून आम्ही कार्यालयीन वेळेनुसार नियोजन करतो.',
+    indOfficesLong: 'स्वच्छ डेस्क, वॉशरूम आणि मीटिंग रूम, आणि आरामदायी एसी यांमुळे तुमची टीम चांगले काम करते आणि अभ्यागतांवर छाप पडते. कामात व्यत्यय येऊ नये म्हणून आम्ही कार्यालयीन वेळेनुसार नियोजन करतो.',
     indResidentialLong: 'स्वतंत्र घरांपासून मोठ्या गृहनिर्माण संस्थांपर्यंत, आम्ही राहण्याच्या जागा स्वच्छ, सामायिक जागा सुव्यवस्थित, बागा हिरव्यागार आणि प्रवेशद्वारे सुरक्षित ठेवतो, ज्यामुळे रहिवासी आपल्या घराचा आनंद घेऊ शकतात.',
     indHotelsLong: 'पाहुणे प्रत्येक बारकावा पाहतात. आमची टीम खोल्या, लॉबी, रेस्टॉरंट आणि फर्निचर ताजेतवाने ठेवते, तसेच एसी आणि बाहेरील परिसराची देखभाल करते, ज्यामुळे तुमची मालमत्ता नेहमी पाहुण्यांसाठी तयार असते.',
     indHospitalsLong: 'आरोग्य केंद्रांना काळजीपूर्वक, स्वच्छताकेंद्री स्वच्छता आणि विश्वासार्ह सुविधा लागतात. वॉर्ड, प्रतीक्षा कक्ष आणि वॉशरूमसाठी आम्ही ठरलेली स्वच्छता पद्धत पाळतो आणि इलेक्ट्रिकल व प्लंबिंग यंत्रणा सुरळीत ठेवतो.',
-    indMallsLong: 'जास्त वर्दळ म्हणजे सतत स्वच्छता आणि सतर्क सुरक्षा. मजले, वॉशरूम आणि फूड कोर्टसाठी आम्ही प्रशिक्षित कर्मचारी देतो, तसेच कामकाजाच्या संपूर्ण वेळेत सुरक्षा आणि देखभाल सहाय्य देतो.',
-    indIndustrialLong: 'कारखाने आणि गोदामांना सुरक्षित, सुव्यवस्थित परिसर लागतो. फॅसिलिटी मॅनेजमेंट, इलेक्ट्रिकल देखभाल, सोलर पॅनल स्वच्छता आणि सुरक्षा कर्मचाऱ्यांद्वारे आम्ही औद्योगिक ठिकाणांना सहाय्य करतो.',
+    indMallsLong: 'जास्त वर्दळ म्हणजे सतत स्वच्छता. मजले, वॉशरूम आणि फूड कोर्टसाठी आम्ही प्रशिक्षित कर्मचारी देतो, तसेच कामकाजाच्या संपूर्ण वेळेत देखभाल सहाय्य देतो.',
+    indIndustrialLong: 'कारखाने आणि गोदामांना सुरक्षित, सुव्यवस्थित परिसर लागतो. फॅसिलिटी मॅनेजमेंट, इलेक्ट्रिकल देखभाल, सोलर पॅनल स्वच्छता आणि प्रशिक्षित सहाय्यक कर्मचाऱ्यांद्वारे आम्ही औद्योगिक ठिकाणांना सहाय्य करतो.',
     indEducationLong: 'विद्यार्थी आणि कर्मचाऱ्यांना स्वच्छ वर्ग, सुरक्षित परिसर आणि हिरवेगार वातावरण मिळायला हवे. आम्ही वेळापत्रक आणि सुट्ट्यांनुसार स्वच्छता, बागकाम आणि देखभालीचे नियोजन करतो.',
 
     whyPromiseText: 'सेवा कोणतीही असो, प्रत्येक भेटीत हे निकष पाळले जातात.',
@@ -109,6 +111,7 @@ export const PAGE_TRANSLATIONS: Record<'en' | 'mr' | 'hi', Record<string, string
   },
 
   hi: {
+    groupHousekeeping: 'हाउसकीपिंग सेवाएं', groupGeneral: 'सामान्य सेवाएं',
     navServicesMenu: 'सेवाएं', navAllServices: 'सभी सेवाएं देखें', navQuoteShort: 'कोटेशन पाएं',
     breadcrumbHome: 'होम', breadcrumbLabel: 'आप यहां हैं',
     readMoreAbout: 'हमारे बारे में और पढ़ें', industriesLink: 'हमारे सेवा क्षेत्र देखें', whyLink: 'ग्राहक हमें क्यों चुनते हैं, देखें',
@@ -120,7 +123,7 @@ export const PAGE_TRANSLATIONS: Record<'en' | 'mr' | 'hi', Record<string, string
 
     aboutHeroTitle: 'Perfect Multi Services के बारे में',
     aboutHeroText: 'घरों, व्यवसायों और उद्योगों के लिए सफाई, रखरखाव और फैसिलिटी सेवाएं देने वाली सांगली की टीम.',
-    aboutStoryExtra: 'हमारा मानना है कि एक संपत्ति की देखभाल के लिए ग्राहकों को पांच अलग-अलग वेंडरों को फोन नहीं करना चाहिए. इसीलिए हमारी प्रशिक्षित टीमें हाउसकीपिंग, विशेष सफाई, तकनीकी रखरखाव, सुरक्षा और बाहरी देखभाल — सब कुछ एक ही कॉल पर संभालती हैं.',
+    aboutStoryExtra: 'हमारा मानना है कि एक संपत्ति की देखभाल के लिए ग्राहकों को पांच अलग-अलग वेंडरों को फोन नहीं करना चाहिए. इसीलिए हमारी प्रशिक्षित टीमें हाउसकीपिंग, विशेष सफाई, तकनीकी रखरखाव और बाहरी देखभाल — सब कुछ एक ही कॉल पर संभालती हैं.',
     missionTitle: 'हमारा मिशन', missionText: 'प्रशिक्षित लोगों, स्पष्ट प्रक्रियाओं और ईमानदार संवाद से फैसिलिटी देखभाल को आसान और भरोसेमंद बनाना.',
     visionTitle: 'हमारा विज़न', visionText: 'हमारे क्षेत्र के हर उस घर, व्यवसाय और उद्योग की पहली पसंद बनना जो अपनी जगह साफ, सुरक्षित और सुव्यवस्थित चाहता है.',
     aboutApproachTitle: 'हमारा तरीका', aboutApproachText: 'हर काम आपकी जगह को समझने से शुरू होता है, तय चेकलिस्ट से चलता है और गुणवत्ता जांच के साथ पूरा होता है.',
@@ -130,12 +133,12 @@ export const PAGE_TRANSLATIONS: Record<'en' | 'mr' | 'hi', Record<string, string
     servicesPageTitle: 'हर तरह की जगह के लिए पेशेवर सेवाएं.',
 
     industryServicesLabel: 'हम जो सेवाएं देते हैं',
-    indOfficesLong: 'साफ डेस्क, वॉशरूम और मीटिंग रूम, आरामदायक एसी और भरोसेमंद सुरक्षा से आपकी टीम अच्छा काम करती है और मेहमान प्रभावित होते हैं. काम में रुकावट न हो, इसलिए हम ऑफिस समय के अनुसार योजना बनाते हैं.',
+    indOfficesLong: 'साफ डेस्क, वॉशरूम और मीटिंग रूम, और आरामदायक एसी से आपकी टीम अच्छा काम करती है और मेहमान प्रभावित होते हैं. काम में रुकावट न हो, इसलिए हम ऑफिस समय के अनुसार योजना बनाते हैं.',
     indResidentialLong: 'अलग-अलग घरों से लेकर बड़ी हाउसिंग सोसायटी तक, हम रहने की जगहों को साफ, साझा जगहों को सुव्यवस्थित, बगीचों को हरा-भरा और प्रवेश द्वारों को सुरक्षित रखते हैं, ताकि निवासी अपने घर का आनंद ले सकें.',
     indHotelsLong: 'मेहमान हर बारीकी पर ध्यान देते हैं. हमारी टीमें कमरों, लॉबी, रेस्टोरेंट और फर्नीचर को ताज़ा रखती हैं, और एसी व बाहरी जगहों का रखरखाव करती हैं, ताकि आपकी संपत्ति हमेशा मेहमानों के लिए तैयार रहे.',
     indHospitalsLong: 'स्वास्थ्य केंद्रों को सावधानीपूर्ण, स्वच्छता-केंद्रित सफाई और भरोसेमंद सुविधाओं की ज़रूरत होती है. वार्ड, प्रतीक्षा क्षेत्र और वॉशरूम के लिए हम तय सफाई दिनचर्या अपनाते हैं और इलेक्ट्रिकल व प्लंबिंग सिस्टम चालू रखते हैं.',
-    indMallsLong: 'ज़्यादा भीड़ का मतलब है लगातार सफाई और सतर्क सुरक्षा. हम फर्श, वॉशरूम और फूड कोर्ट के लिए प्रशिक्षित स्टाफ के साथ खुलने के पूरे समय में सुरक्षा और रखरखाव सहायता देते हैं.',
-    indIndustrialLong: 'फैक्ट्रियों और गोदामों को सुरक्षित, सुव्यवस्थित परिसर चाहिए. हम फैसिलिटी मैनेजमेंट, इलेक्ट्रिकल रखरखाव, सोलर पैनल सफाई और सुरक्षा कर्मियों से औद्योगिक साइटों की सहायता करते हैं.',
+    indMallsLong: 'ज़्यादा भीड़ का मतलब है लगातार सफाई. हम फर्श, वॉशरूम और फूड कोर्ट के लिए प्रशिक्षित स्टाफ के साथ खुलने के पूरे समय में रखरखाव सहायता देते हैं.',
+    indIndustrialLong: 'फैक्ट्रियों और गोदामों को सुरक्षित, सुव्यवस्थित परिसर चाहिए. हम फैसिलिटी मैनेजमेंट, इलेक्ट्रिकल रखरखाव, सोलर पैनल सफाई और प्रशिक्षित सहायक स्टाफ से औद्योगिक साइटों की सहायता करते हैं.',
     indEducationLong: 'छात्रों और कर्मचारियों को साफ कक्षाएं, सुरक्षित परिसर और हरा-भरा माहौल मिलना चाहिए. हम समय-सारणी और छुट्टियों के अनुसार सफाई, बागवानी और रखरखाव की योजना बनाते हैं.',
 
     whyPromiseText: 'सेवा कोई भी हो, हर विज़िट में ये मानक लागू होते हैं.',

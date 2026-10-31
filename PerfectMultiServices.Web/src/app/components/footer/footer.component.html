@@ -25,9 +25,10 @@
       <div>
         <h3>{{ i18n.t('footerServicesTitle') }}</h3>
         <ul class="footer-links">
-          @for (service of catalog.all(); track service.slug) {
+          @for (service of footerServices(); track service.slug) {
             <li><a [routerLink]="service.url">{{ service.content.name }}</a></li>
           }
+          <li><a routerLink="/services" class="footer-all">{{ i18n.t('navAllServices') }} →</a></li>
         </ul>
       </div>
 

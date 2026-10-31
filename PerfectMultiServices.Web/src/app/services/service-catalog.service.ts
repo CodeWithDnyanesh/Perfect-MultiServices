@@ -1,6 +1,6 @@
 import { Injectable, computed, inject } from '@angular/core';
 import { LanguageService } from './language.service';
-import { SITE_SERVICES, ServiceSlug, SiteService } from '../content/site-content';
+import { SERVICE_GROUPS, SITE_SERVICES, ServiceGroup, ServiceSlug, SiteService } from '../content/site-content';
 import { ServiceContent, ServiceContentSet } from '../content/services/service-content';
 import { SERVICES_EN } from '../content/services/services.en';
 import { SERVICES_MR } from '../content/services/services.mr';
@@ -22,6 +22,14 @@ export class ServiceCatalog {
     const content = CONTENT[this.i18n.language()];
     return SITE_SERVICES.map(service => ({ ...service, content: content[service.slug], url: `/services/${service.slug}` }));
   });
+
+  /** Services split into the two groups from the business card. */
+  readonly groups = computed<{ id: ServiceGroup; label: string; services: CatalogEntry[] }[]>(() =>
+    SERVICE_GROUPS.map(id => ({
+      id,
+      label: id === 'housekeeping' ? 'groupHousekeeping' : 'groupGeneral',
+      services: this.all().filter(s => s.group === id)
+    })));
 
   get(slug: string): CatalogEntry | undefined {
     return this.all().find(entry => entry.slug === slug);

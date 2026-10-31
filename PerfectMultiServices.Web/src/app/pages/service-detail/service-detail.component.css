@@ -24,6 +24,16 @@
 .block h2 { margin-bottom: 18px; font-size: clamp(1.5rem, 2.4vw, 1.9rem); }
 .block .lead { margin: 0 0 14px; }
 
+.gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
+/* Paired photos keep their own shape (16:9, square, ...); odd galleries below set fixed frames. */
+.gallery figure { margin: 0; overflow: hidden; border-radius: 18px; box-shadow: var(--shadow-sm); }
+.gallery img { display: block; width: 100%; height: auto; object-fit: cover; transition: transform .6s ease; }
+.gallery.odd img { height: 100%; }
+.gallery figure:hover img { transform: scale(1.04); }
+/* Odd number of photos: the first (a wide shot) spans the row, the rest sit in pairs below. */
+.gallery.odd figure:first-child { grid-column: 1 / -1; aspect-ratio: 8 / 3; }
+.gallery.odd figure:not(:first-child) { aspect-ratio: 1 / 1; }
+
 .included { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; }
 .included li { padding: 14px 16px; border: 1px solid var(--c-line); border-radius: 14px; background: #fff; font-weight: 600; }
 
@@ -63,6 +73,8 @@
 }
 @media (max-width: 640px) {
   .included, .benefits, .detail-side, .related-grid { grid-template-columns: minmax(0, 1fr); }
+  .gallery { gap: 10px; }
+  .gallery.odd figure:first-child { aspect-ratio: 16 / 9; }
   .hero-actions .btn { flex: 1 1 100%; }
   .hero-media-badge { right: 8px; bottom: -18px; width: 60px; height: 60px; }
 }

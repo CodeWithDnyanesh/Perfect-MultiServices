@@ -34,7 +34,7 @@ export const SITE_TRANSLATIONS: Record<'en' | 'mr' | 'hi', Record<string, string
     whyText: 'We combine flexible service, careful work and dependable people, so you never have to manage multiple vendors.',
     whySchedulingTitle: 'Flexible Scheduling', whySchedulingText: 'Book a slot that fits your routine, including recurring daily, weekly or monthly plans.',
     whyQualityTitle: 'Detail-Led Quality', whyQualityText: 'From visible dirt to hidden spots, every job follows a checklist so nothing is missed.',
-    whyCompleteTitle: 'Complete Service Solutions', whyCompleteText: 'Cleaning, maintenance, security and more, all managed through a single call.',
+    whyCompleteTitle: 'Complete Service Solutions', whyCompleteText: 'Cleaning, maintenance, specialised services and more, all managed through a single call.',
 
     industriesEyebrow: 'Industries We Serve', industriesTitle: 'Trusted across every type of property.',
     industriesText: 'Our teams adapt their methods, timing and safety practices to the space they work in.',
@@ -109,7 +109,7 @@ export const SITE_TRANSLATIONS: Record<'en' | 'mr' | 'hi', Record<string, string
     whyText: 'लवचिक सेवा, काळजीपूर्वक काम आणि विश्वासू कर्मचारी — त्यामुळे तुम्हाला अनेक विक्रेते सांभाळावे लागत नाहीत.',
     whySchedulingTitle: 'सोयीचे वेळापत्रक', whySchedulingText: 'तुमच्या दिनक्रमानुसार वेळ निवडा, दैनिक, साप्ताहिक किंवा मासिक नियमित योजनांसह.',
     whyQualityTitle: 'बारकाईने दर्जा', whyQualityText: 'दिसणाऱ्या धुळीपासून लपलेल्या कोपऱ्यांपर्यंत, प्रत्येक काम चेकलिस्टनुसार होते.',
-    whyCompleteTitle: 'संपूर्ण सेवा उपाय', whyCompleteText: 'स्वच्छता, देखभाल, सुरक्षा आणि बरेच काही — सर्व एकाच कॉलवर.',
+    whyCompleteTitle: 'संपूर्ण सेवा उपाय', whyCompleteText: 'स्वच्छता, देखभाल, विशेष सेवा आणि बरेच काही — सर्व एकाच कॉलवर.',
 
     industriesEyebrow: 'आम्ही सेवा देत असलेली क्षेत्रे', industriesTitle: 'प्रत्येक प्रकारच्या मालमत्तेसाठी विश्वासार्ह.',
     industriesText: 'आमची टीम जागेनुसार आपल्या पद्धती, वेळ आणि सुरक्षा नियम बदलते.',
@@ -184,7 +184,7 @@ export const SITE_TRANSLATIONS: Record<'en' | 'mr' | 'hi', Record<string, string
     whyText: 'लचीली सेवा, सावधानी से काम और भरोसेमंद लोग — ताकि आपको कई वेंडर संभालने न पड़ें.',
     whySchedulingTitle: 'लचीला शेड्यूल', whySchedulingText: 'अपनी दिनचर्या के अनुसार समय चुनें, दैनिक, साप्ताहिक या मासिक नियमित योजनाओं के साथ.',
     whyQualityTitle: 'बारीकी से गुणवत्ता', whyQualityText: 'दिखने वाली धूल से छिपे कोनों तक, हर काम चेकलिस्ट से होता है.',
-    whyCompleteTitle: 'संपूर्ण सेवा समाधान', whyCompleteText: 'सफाई, रखरखाव, सुरक्षा और बहुत कुछ — सब एक ही कॉल पर.',
+    whyCompleteTitle: 'संपूर्ण सेवा समाधान', whyCompleteText: 'सफाई, रखरखाव, विशेष सेवाएं और बहुत कुछ — सब एक ही कॉल पर.',
 
     industriesEyebrow: 'हम किन क्षेत्रों में सेवा देते हैं', industriesTitle: 'हर तरह की संपत्ति के लिए भरोसेमंद.',
     industriesText: 'हमारी टीम जगह के अनुसार अपने तरीके, समय और सुरक्षा नियम बदलती है.',

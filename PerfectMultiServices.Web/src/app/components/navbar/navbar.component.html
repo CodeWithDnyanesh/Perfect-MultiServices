@@ -20,16 +20,23 @@
           <app-icon name="arrowRight" />
         </button>
         <div id="services-menu" class="dropdown">
-          <ul>
-            @for (service of catalog.all(); track service.slug) {
-              <li>
-                <a [routerLink]="service.url" routerLinkActive="active" ariaCurrentWhenActive="page">
-                  <span class="dd-icon"><app-icon [name]="service.icon" /></span>
-                  <span>{{ service.content.name }}</span>
-                </a>
-              </li>
+          <div class="dd-groups">
+            @for (group of catalog.groups(); track group.id) {
+              <div class="dd-group">
+                <p class="dd-title">{{ i18n.t(group.label) }}</p>
+                <ul>
+                  @for (service of group.services; track service.slug) {
+                    <li>
+                      <a [routerLink]="service.url" routerLinkActive="active" ariaCurrentWhenActive="page">
+                        <span class="dd-icon"><app-icon [name]="service.icon" /></span>
+                        <span>{{ service.content.name }}</span>
+                      </a>
+                    </li>
+                  }
+                </ul>
+              </div>
             }
-          </ul>
+          </div>
           <a routerLink="/services" class="dd-all">{{ i18n.t('navAllServices') }} <app-icon name="arrowRight" /></a>
         </div>
       </li>
@@ -69,8 +76,11 @@
         </button>
         <ul id="m-services-list" class="m-sub" [class.open]="isMobileServicesOpen">
           <li><a routerLink="/services" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">{{ i18n.t('navAllServices') }}</a></li>
-          @for (service of catalog.all(); track service.slug) {
-            <li><a [routerLink]="service.url" routerLinkActive="active"><app-icon [name]="service.icon" /> {{ service.content.name }}</a></li>
+          @for (group of catalog.groups(); track group.id) {
+            <li class="m-group">{{ i18n.t(group.label) }}</li>
+            @for (service of group.services; track service.slug) {
+              <li><a [routerLink]="service.url" routerLinkActive="active"><app-icon [name]="service.icon" /> {{ service.content.name }}</a></li>
+            }
           }
         </ul>
       </li>

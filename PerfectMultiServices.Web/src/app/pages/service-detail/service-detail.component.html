@@ -29,6 +29,13 @@
         @for (paragraph of c.overview; track $index) {
           <p class="lead">{{ paragraph }}</p>
         }
+        @if (s.gallery?.length) {
+          <div class="gallery" [class.odd]="s.gallery!.length % 2 === 1">
+            @for (photo of s.gallery; track photo; let i = $index) {
+              <figure><img [src]="photo" [alt]="c.name + ' – ' + (i + 1)" loading="lazy" width="1200" height="675" /></figure>
+            }
+          </div>
+        }
       </section>
 
       <section class="block" appReveal aria-labelledby="sd-included">

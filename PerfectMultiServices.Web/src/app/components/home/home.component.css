@@ -54,6 +54,9 @@
 
 /* ---------- Services ---------- */
 .service-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 22px; }
+.service-grid + .group-title { margin-top: clamp(40px, 5vw, 56px); }
+.group-title { display: flex; align-items: center; gap: 12px; margin: 0 0 22px; font-size: clamp(1.25rem, 2vw, 1.5rem); }
+.group-title span { display: grid; place-items: center; min-width: 32px; height: 32px; padding: 0 9px; border-radius: 999px; background: var(--c-orange); color: #fff; font-size: .9rem; font-weight: 800; }
 
 /* ---------- Industries ---------- */
 .industry-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; }

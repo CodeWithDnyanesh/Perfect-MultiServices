@@ -19,7 +19,9 @@ const serviceRoutes: Routes = SITE_SERVICES.map(({ slug }) => ({
 const LEGACY_SERVICE_URLS: Record<string, string> = {
   'home-housekeeping': 'housekeeping-cleaning',
   'housekeeping-services': 'housekeeping-cleaning',
-  'deep-cleaning': 'housekeeping-cleaning',
+  'deep-cleaning': 'deep-cleaning',
+  'pest-control': 'pest-control',
+  'security-services': 'facility-management',
   'office-cleaning': 'office-deep-cleaning',
   'office-maintenance': 'facility-management',
   'maintenance-services': 'facility-management',
