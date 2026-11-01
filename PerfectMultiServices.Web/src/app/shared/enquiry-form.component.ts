@@ -4,6 +4,7 @@ import { ApiService } from '../services/api.service';
 import { LanguageService } from '../services/language.service';
 import { ServiceCatalog } from '../services/service-catalog.service';
 import { PAGE_TRANSLATIONS } from '../i18n/page-translations';
+import { COMPANY_CONTACT } from '../content/site-content';
 
 type Status = 'idle' | 'sending' | 'sent' | 'failed';
 
@@ -82,7 +83,13 @@ const PROPERTY_TYPES = ['propHome', 'propSociety', 'propOffice', 'propHotel', 'p
 
       @if (error) { <p class="note note-error" role="alert">{{ error }}</p> }
       @if (status === 'sent') { <p class="note note-success" role="status">{{ i18n.t('formSuccess') }}</p> }
-      @if (status === 'failed') { <p class="note note-error" role="alert">{{ i18n.t('formError') }}</p> }
+      @if (status === 'failed') {
+        <div class="note note-error" role="alert">
+          <p>{{ i18n.t('formError') }}</p>
+          <!-- The visitor's details are still in the form, so one tap sends them to the team on WhatsApp. -->
+          <a class="btn btn-whatsapp" [href]="whatsappLink()" target="_blank" rel="noopener">{{ i18n.t('formSendWhatsapp') }}</a>
+        </div>
+      }
 
       <button type="submit" class="btn btn-primary btn-block" [disabled]="status === 'sending'">
         {{ status === 'sending' ? i18n.t('formSending') : i18n.t(detailed() ? 'formQuoteSubmit' : 'formSubmit') }}
@@ -96,6 +103,8 @@ const PROPERTY_TYPES = ['propHome', 'propSociety', 'propOffice', 'propHotel', 'p
     .row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
     .note { margin: 0; padding: 12px 14px; border-radius: 12px; font-size: .9rem; font-weight: 600; line-height: 1.5; }
     .note-error { background: #fdecec; color: #a12020; }
+    .note-error p { margin: 0 0 12px; }
+    .note-error .btn { width: 100%; }
     .note-success { background: #e9f7ee; color: #17663a; }
     @media (max-width: 600px) { .row { grid-template-columns: minmax(0, 1fr); } }
   `]
@@ -167,6 +176,20 @@ export class EnquiryFormComponent {
         this.status = 'failed';
       }
     });
+  }
+
+  /** WhatsApp link to the company with the visitor's enquiry already typed in. */
+  whatsappLink(): string {
+    const m = this.model;
+    const service = m.service === 'other' ? 'Other / multiple services' : this.catalog.englishName(m.service);
+    const details = [
+      `Name: ${m.name.trim()}`,
+      m.phone.trim() ? `Phone: ${m.phone.trim()}` : '',
+      m.email.trim() ? `Email: ${m.email.trim()}` : '',
+      service ? `Service: ${service}` : ''
+    ].filter(Boolean);
+    const text = ['New enquiry from the website', ...details, '', this.composeMessage()].join('\n');
+    return `${COMPANY_CONTACT.whatsapp}?text=${encodeURIComponent(text)}`;
   }
 
   /** The team reads enquiries in English, so extra quote details use English labels. */

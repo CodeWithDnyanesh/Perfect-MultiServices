@@ -3,6 +3,7 @@
 
 export const PAGE_TRANSLATIONS: Record<'en' | 'mr' | 'hi', Record<string, string>> = {
   en: {
+    formSendWhatsapp: 'Send these details on WhatsApp',
     groupHousekeeping: 'Housekeeping Services', groupGeneral: 'General Services',
     navServicesMenu: 'Services', navAllServices: 'View all services', navQuoteShort: 'Get a Quote',
     breadcrumbHome: 'Home', breadcrumbLabel: 'You are here',
@@ -57,6 +58,7 @@ export const PAGE_TRANSLATIONS: Record<'en' | 'mr' | 'hi', Record<string, string
   },
 
   mr: {
+    formSendWhatsapp: 'ही माहिती WhatsApp वर पाठवा',
     groupHousekeeping: 'हाऊसकीपिंग सेवा', groupGeneral: 'सामान्य सेवा',
     navServicesMenu: 'सेवा', navAllServices: 'सर्व सेवा पहा', navQuoteShort: 'कोटेशन मिळवा',
     breadcrumbHome: 'मुख्यपृष्ठ', breadcrumbLabel: 'तुम्ही येथे आहात',
@@ -111,6 +113,7 @@ export const PAGE_TRANSLATIONS: Record<'en' | 'mr' | 'hi', Record<string, string
   },
 
   hi: {
+    formSendWhatsapp: 'यह जानकारी WhatsApp पर भेजें',
     groupHousekeeping: 'हाउसकीपिंग सेवाएं', groupGeneral: 'सामान्य सेवाएं',
     navServicesMenu: 'सेवाएं', navAllServices: 'सभी सेवाएं देखें', navQuoteShort: 'कोटेशन पाएं',
     breadcrumbHome: 'होम', breadcrumbLabel: 'आप यहां हैं',
