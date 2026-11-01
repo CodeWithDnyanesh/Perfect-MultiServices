@@ -1,30 +1,49 @@
 using System.Net;
+using System.Net.Http.Json;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 
 /// <summary>
-/// SMTP settings, read from the "Email" configuration section. On Render set them as
-/// environment variables: Email__Username, Email__Password (a Gmail app password), and
-/// optionally Email__CompanyInbox, Email__Host, Email__Port, Email__FromName.
+/// Email settings, read from the "Email" configuration section (on Render: environment
+/// variables such as Email__BrevoApiKey). Two ways to send:
+///  - Brevo's HTTPS API (Email__BrevoApiKey). Use this on Render's free plan, which blocks SMTP ports.
+///  - SMTP, e.g. Gmail with an app password (Email__Username, Email__Password).
+/// Brevo is used whenever its key is set.
 /// </summary>
 public class EmailSettings
 {
+    /// <summary>Address the emails come from. With Brevo it must be a verified sender in your Brevo account.</summary>
+    public string SenderEmail { get; set; } = "perfectmultiservicess@gmail.com";
+    public string FromName { get; set; } = "Perfect Multi Services";
+    public string CompanyInbox { get; set; } = "perfectmultiservicess@gmail.com";
+
+    public string BrevoApiKey { get; set; } = string.Empty;
+    public string BrevoApiUrl { get; set; } = "https://api.brevo.com/v3/smtp/email";
+
     public string Host { get; set; } = "smtp.gmail.com";
     public int Port { get; set; } = 587;
     public string Username { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
-    public string FromName { get; set; } = "Perfect Multi Services";
-    public string CompanyInbox { get; set; } = "perfectmultiservicess@gmail.com";
 
-    public bool IsConfigured => !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password);
+    public bool UseBrevo => !string.IsNullOrWhiteSpace(BrevoApiKey);
+    public bool UseSmtp => !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password);
+    public bool IsConfigured => UseBrevo || UseSmtp;
 }
 
 public enum EnquiryResult { Sent, NotConfigured, Failed }
 
+/// <summary>One outgoing email, independent of how it is sent.</summary>
+public record OutgoingEmail(
+    string FromName, string ToEmail, string ToName, string? ReplyToEmail, string? ReplyToName,
+    string Subject, string Text, string Html);
+
 /// <summary>Emails each website enquiry to the company and a confirmation to the visitor.</summary>
-public class EnquiryEmailService(EmailSettings settings, ILogger<EnquiryEmailService> logger)
+public class EnquiryEmailService(EmailSettings settings, IHttpClientFactory httpFactory, ILogger<EnquiryEmailService> logger)
 {
+    /// <summary>A visitor is waiting on the form, so give up quickly rather than hang.</summary>
+    private static readonly TimeSpan SendTimeout = TimeSpan.FromSeconds(20);
+
     public async Task<EnquiryResult> SendAsync(ContactRequest request, CancellationToken ct)
     {
         if (!settings.IsConfigured)
@@ -33,28 +52,80 @@ public class EnquiryEmailService(EmailSettings settings, ILogger<EnquiryEmailSer
             return EnquiryResult.NotConfigured;
         }
 
-        using var smtp = new SmtpClient();
+        var emails = new List<OutgoingEmail> { BuildCompanyEmail(request) };
+        if (!string.IsNullOrWhiteSpace(request.Email))
+        {
+            emails.Add(BuildConfirmationEmail(request));
+        }
+
         try
         {
-            // Real mail servers always require TLS; a mail server on this machine (for testing) may not offer it.
-            var security = settings.Host is "localhost" or "127.0.0.1" ? SecureSocketOptions.None : SecureSocketOptions.StartTls;
-            await smtp.ConnectAsync(settings.Host, settings.Port, security, ct);
-            // Google shows app passwords in groups of four ("abcd efgh ..."); the spaces are not part of it.
-            await smtp.AuthenticateAsync(settings.Username.Trim(), settings.Password.Replace(" ", ""), ct);
-            await smtp.SendAsync(BuildCompanyEmail(request), ct);
+            return settings.UseBrevo
+                ? await SendWithBrevoAsync(emails, ct)
+                : await SendWithSmtpAsync(emails, ct);
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Could not email enquiry from {Name} ({Phone}).", request.Name, request.Phone);
             return EnquiryResult.Failed;
         }
+    }
 
+    private async Task<EnquiryResult> SendWithBrevoAsync(List<OutgoingEmail> emails, CancellationToken ct)
+    {
+        var http = httpFactory.CreateClient("brevo");
+        http.Timeout = SendTimeout;
+
+        for (var i = 0; i < emails.Count; i++)
+        {
+            var e = emails[i];
+            using var message = new HttpRequestMessage(HttpMethod.Post, settings.BrevoApiUrl)
+            {
+                Content = JsonContent.Create(new
+                {
+                    sender = new { name = e.FromName, email = settings.SenderEmail },
+                    to = new[] { new { email = e.ToEmail, name = e.ToName } },
+                    replyTo = e.ReplyToEmail is null ? null : new { email = e.ReplyToEmail, name = e.ReplyToName },
+                    subject = e.Subject,
+                    textContent = e.Text,
+                    htmlContent = e.Html
+                })
+            };
+            message.Headers.Add("api-key", settings.BrevoApiKey.Trim());
+            message.Headers.Add("accept", "application/json");
+
+            using var response = await http.SendAsync(message, ct);
+            if (!response.IsSuccessStatusCode)
+            {
+                var detail = await response.Content.ReadAsStringAsync(ct);
+                // The first email goes to the company; only its failure fails the enquiry.
+                if (i == 0)
+                {
+                    logger.LogError("Brevo rejected the enquiry email: {Status} {Detail}", (int)response.StatusCode, detail);
+                    return EnquiryResult.Failed;
+                }
+                logger.LogWarning("Enquiry delivered, but Brevo rejected the visitor confirmation: {Status} {Detail}", (int)response.StatusCode, detail);
+            }
+        }
+        return EnquiryResult.Sent;
+    }
+
+    private async Task<EnquiryResult> SendWithSmtpAsync(List<OutgoingEmail> emails, CancellationToken ct)
+    {
+        using var smtp = new SmtpClient { Timeout = (int)SendTimeout.TotalMilliseconds };
+        // Real mail servers always require TLS; a mail server on this machine (for testing) may not offer it.
+        var security = settings.Host is "localhost" or "127.0.0.1" ? SecureSocketOptions.None : SecureSocketOptions.StartTls;
+        await smtp.ConnectAsync(settings.Host, settings.Port, security, ct);
+        // Google shows app passwords in groups of four ("abcd efgh ..."); the spaces are not part of it.
+        await smtp.AuthenticateAsync(settings.Username.Trim(), settings.Password.Replace(" ", ""), ct);
+
+        await smtp.SendAsync(ToMime(emails[0]), ct);
         // The enquiry has reached the company; a failed confirmation must not fail the request.
-        if (!string.IsNullOrWhiteSpace(request.Email))
+        foreach (var confirmation in emails.Skip(1))
         {
             try
             {
-                await smtp.SendAsync(BuildConfirmationEmail(request), ct);
+                await smtp.SendAsync(ToMime(confirmation), ct);
             }
             catch (Exception ex)
             {
@@ -66,17 +137,22 @@ public class EnquiryEmailService(EmailSettings settings, ILogger<EnquiryEmailSer
         return EnquiryResult.Sent;
     }
 
-    private MimeMessage BuildCompanyEmail(ContactRequest r)
+    private MimeMessage ToMime(OutgoingEmail e)
     {
         var message = new MimeMessage();
-        message.From.Add(new MailboxAddress("Perfect Multi Services Website", settings.Username));
-        message.To.Add(MailboxAddress.Parse(settings.CompanyInbox));
-        if (!string.IsNullOrWhiteSpace(r.Email))
+        message.From.Add(new MailboxAddress(e.FromName, string.IsNullOrWhiteSpace(settings.Username) ? settings.SenderEmail : settings.Username.Trim()));
+        message.To.Add(new MailboxAddress(e.ToName, e.ToEmail));
+        if (e.ReplyToEmail is not null)
         {
-            message.ReplyTo.Add(new MailboxAddress(r.Name, r.Email));
+            message.ReplyTo.Add(new MailboxAddress(e.ReplyToName ?? string.Empty, e.ReplyToEmail));
         }
-        message.Subject = $"New enquiry: {r.Service} – {r.Name}";
+        message.Subject = e.Subject;
+        message.Body = new BodyBuilder { TextBody = e.Text, HtmlBody = e.Html }.ToMessageBody();
+        return message;
+    }
 
+    private OutgoingEmail BuildCompanyEmail(ContactRequest r)
+    {
         var rows = new (string Label, string Value)[]
         {
             ("Name", r.Name),
@@ -100,19 +176,16 @@ public class EnquiryEmailService(EmailSettings settings, ILogger<EnquiryEmailSer
             </div>
             """;
 
-        message.Body = new BodyBuilder { TextBody = text, HtmlBody = html }.ToMessageBody();
-        return message;
+        var hasEmail = !string.IsNullOrWhiteSpace(r.Email);
+        return new OutgoingEmail(
+            "Perfect Multi Services Website", settings.CompanyInbox, "Perfect Multi Services",
+            hasEmail ? r.Email : null, hasEmail ? r.Name : null,
+            $"New enquiry: {r.Service} – {r.Name}", text, html);
     }
 
-    private MimeMessage BuildConfirmationEmail(ContactRequest r)
+    private OutgoingEmail BuildConfirmationEmail(ContactRequest r)
     {
         var t = ConfirmationText.For(r.Language);
-        var message = new MimeMessage();
-        message.From.Add(new MailboxAddress(settings.FromName, settings.Username));
-        message.To.Add(new MailboxAddress(r.Name, r.Email));
-        message.ReplyTo.Add(MailboxAddress.Parse(settings.CompanyInbox));
-        message.Subject = t.Subject;
-
         var text = $"{t.Greeting} {r.Name},\n\n{t.Body}\n\n{t.ServiceLabel}: {r.Service}\n\n{t.Help}\n+91 84606 57606\n\n{t.SignOff}\nPerfect Multi Services Pvt. Ltd.\n";
         var html = $"""
             <div style="font-family:Arial,sans-serif;color:#252525;max-width:560px;line-height:1.6">
@@ -127,8 +200,9 @@ public class EnquiryEmailService(EmailSettings settings, ILogger<EnquiryEmailSer
             </div>
             """;
 
-        message.Body = new BodyBuilder { TextBody = text, HtmlBody = html }.ToMessageBody();
-        return message;
+        return new OutgoingEmail(
+            settings.FromName, r.Email, r.Name, settings.CompanyInbox, "Perfect Multi Services",
+            t.Subject, text, html);
     }
 
     private static string Html(string value) => WebUtility.HtmlEncode(value);

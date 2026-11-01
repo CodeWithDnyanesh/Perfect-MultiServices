@@ -25,6 +25,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 // Website enquiries are emailed to the company (settings: see EmailSettings).
 builder.Services.AddSingleton(builder.Configuration.GetSection("Email").Get<EmailSettings>() ?? new EmailSettings());
+builder.Services.AddHttpClient();
 builder.Services.AddSingleton<EnquiryEmailService>();
 
 // Render sits behind a proxy; use the visitor's real IP for rate limiting.
