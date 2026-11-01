@@ -25,6 +25,10 @@ export interface ContactRequest {
   phone: string;
   message: string;
   service: string;
+  /** Site language, used for the visitor's confirmation email. */
+  language?: string;
+  /** Spam trap; real visitors leave it empty. */
+  website?: string;
 }
 
 export interface Booking {

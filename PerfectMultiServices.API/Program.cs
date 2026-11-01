@@ -1,4 +1,8 @@
 using System.Linq;
+using System.Net.Mail;
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +23,27 @@ builder.Services.AddCors(options =>
 // Add in-memory database for demo
 builder.Services.AddEndpointsApiExplorer();
 
+// Website enquiries are emailed to the company (settings: see EmailSettings).
+builder.Services.AddSingleton(builder.Configuration.GetSection("Email").Get<EmailSettings>() ?? new EmailSettings());
+builder.Services.AddSingleton<EnquiryEmailService>();
+
+// Render sits behind a proxy; use the visitor's real IP for rate limiting.
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownIPNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+
+// The enquiry form sends real email, so limit how often one visitor can submit it.
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy("enquiry", context => RateLimitPartition.GetFixedWindowLimiter(
+        context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+        _ => new FixedWindowRateLimiterOptions { PermitLimit = 5, Window = TimeSpan.FromMinutes(10) }));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,6 +52,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseForwardedHeaders();
+app.UseRateLimiter();
 app.UseCors("AllowAngularApp");
 app.UseDefaultFiles();
 app.UseStaticFiles();
@@ -346,11 +373,29 @@ app.MapGet("/api/company", () =>
 .WithName("GetCompanyInfo");
 
 // Contact endpoint
-app.MapPost("/api/contact", (ContactRequest request) =>
+app.MapPost("/api/contact", async (ContactRequest request, EnquiryEmailService email, CancellationToken ct) =>
 {
-    // In a real application, this would send an email or save to database
-    return Results.Ok(new { message = "Thank you for your inquiry! We will contact you soon." });
+    // Hidden field that people never see; bots fill it in. Pretend success and drop it.
+    if (!string.IsNullOrWhiteSpace(request.Website))
+    {
+        return Results.Ok(new { message = "Thank you for your inquiry! We will contact you soon." });
+    }
+
+    request.Trim();
+    var errors = request.Validate();
+    if (errors.Count > 0)
+    {
+        return Results.ValidationProblem(errors);
+    }
+
+    return await email.SendAsync(request, ct) switch
+    {
+        EnquiryResult.Sent => Results.Ok(new { message = "Thank you for your inquiry! We will contact you soon." }),
+        EnquiryResult.NotConfigured => Results.Problem("Enquiry email is not configured.", statusCode: StatusCodes.Status503ServiceUnavailable),
+        _ => Results.Problem("Your enquiry could not be sent. Please call or WhatsApp us.", statusCode: StatusCodes.Status502BadGateway)
+    };
 })
+.RequireRateLimiting("enquiry")
 .WithName("SubmitContact");
 
 // Dashboard statistics endpoint
@@ -432,11 +477,40 @@ class Customer
     public decimal? AverageRating { get; set; }
 }
 
-class ContactRequest
+public class ContactRequest
 {
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
     public string Message { get; set; } = string.Empty;
     public string Service { get; set; } = string.Empty;
+    /// <summary>Visitor's site language (en, mr, hi) for the confirmation email.</summary>
+    public string Language { get; set; } = "en";
+    /// <summary>Spam trap: hidden from people, so it should always arrive empty.</summary>
+    public string Website { get; set; } = string.Empty;
+
+    public void Trim()
+    {
+        Name = Name.Trim();
+        Email = Email.Trim();
+        Phone = Phone.Trim();
+        Message = Message.Trim();
+        Service = Service.Trim();
+        Language = Language is "mr" or "hi" ? Language : "en";
+    }
+
+    public Dictionary<string, string[]> Validate()
+    {
+        var errors = new Dictionary<string, string[]>();
+        void Check(bool ok, string field, string error) { if (!ok) errors[field] = [error]; }
+
+        Check(Name.Length is > 0 and <= 100, nameof(Name), "Name is required (max 100 characters).");
+        Check(Service.Length is > 0 and <= 100, nameof(Service), "Service is required.");
+        Check(Message.Length is > 0 and <= 3000, nameof(Message), "Message is required (max 3000 characters).");
+        Check(Email.Length > 0 || Phone.Length > 0, nameof(Phone), "An email address or phone number is required.");
+        Check(Phone.Length <= 30, nameof(Phone), "Phone number is too long.");
+        Check(Email.Length == 0 || (Email.Length <= 200 && MailAddress.TryCreate(Email, out var parsed) && parsed.Address == Email),
+            nameof(Email), "Email address is not valid.");
+        return errors;
+    }
 }

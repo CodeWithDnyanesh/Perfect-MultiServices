@@ -74,6 +74,12 @@ const PROPERTY_TYPES = ['propHome', 'propSociety', 'propOffice', 'propHotel', 'p
         <textarea [id]="id('message')" name="message" rows="4" required [placeholder]="i18n.t('formMessagePlaceholder')" [(ngModel)]="model.message"></textarea>
       </div>
 
+      <!-- Spam trap: hidden from people and screen readers; bots tend to fill it in. -->
+      <div class="trap" aria-hidden="true">
+        <label [for]="id('website')">Website</label>
+        <input [id]="id('website')" name="website" type="text" tabindex="-1" autocomplete="off" [(ngModel)]="model.website" />
+      </div>
+
       @if (error) { <p class="note note-error" role="alert">{{ error }}</p> }
       @if (status === 'sent') { <p class="note note-success" role="status">{{ i18n.t('formSuccess') }}</p> }
       @if (status === 'failed') { <p class="note note-error" role="alert">{{ i18n.t('formError') }}</p> }
@@ -86,6 +92,7 @@ const PROPERTY_TYPES = ['propHome', 'propSociety', 'propOffice', 'propHotel', 'p
   styles: [`
     :host { display: block; }
     .form { display: grid; gap: 18px; }
+    .trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
     .row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
     .note { margin: 0; padding: 12px 14px; border-radius: 12px; font-size: .9rem; font-weight: 600; line-height: 1.5; }
     .note-error { background: #fdecec; color: #a12020; }
@@ -145,7 +152,9 @@ export class EnquiryFormComponent {
       email: m.email.trim(),
       phone: m.phone.trim(),
       service: m.service === 'other' ? 'Other / multiple services' : this.catalog.englishName(m.service),
-      message: this.composeMessage()
+      message: this.composeMessage(),
+      language: this.i18n.language(),
+      website: m.website
     }).subscribe({
       next: () => {
         this.cdr.markForCheck();
@@ -174,6 +183,6 @@ export class EnquiryFormComponent {
   }
 
   private blank() {
-    return { name: '', email: '', phone: '', service: this.preset?.() ?? '', property: '', location: '', date: '', message: '' };
+    return { name: '', email: '', phone: '', service: this.preset?.() ?? '', property: '', location: '', date: '', message: '', website: '' };
   }
 }
